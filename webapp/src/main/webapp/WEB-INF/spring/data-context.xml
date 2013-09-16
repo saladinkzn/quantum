@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:j2ee="http://www.springframework.org/schema/jee"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/jpa
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee.xsd">
     <jpa:repositories base-package="ru.kpfu.quantum.spring.repository" />
     <j2ee:jndi-lookup id="dataSource" expected-type="javax.sql.DataSource"
-                      jndi-name="java:jboss/datasources/PostgreDS-velocity" />
+                      jndi-name="java:jboss/datasources/PostgreDS-quantum" />
 
-    <bean class="org.springframework.orm.jpa.JpaTransactionManager"
-          id="transactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-        <property name="jpaDialect">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
-        </property>
-    </bean>
+    <!--<bean class="org.springframework.orm.jpa.JpaTransactionManager"-->
+          <!--id="transactionManager">-->
+        <!--<property name="entityManagerFactory" ref="entityManagerFactory" />-->
+        <!--<property name="jpaDialect">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

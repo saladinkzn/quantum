@@ -12,6 +12,7 @@
     <modules>
         <module>webapp</module>
         <module>quantum-data</module>
+        <module>quantum-deployer</module>
     </modules>
 
     <properties>
@@ -19,9 +20,17 @@
         <com.java.version>1.7</com.java.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>timur-dev</id>
+            <properties>
+                <jbossHome>q:\jboss\quantum\jboss-as-7.1.1.Final\standalone</jbossHome>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencyManagement>
         <dependencies>
-
             <!-- log4j -->
             <dependency>
                 <groupId>log4j</groupId>
