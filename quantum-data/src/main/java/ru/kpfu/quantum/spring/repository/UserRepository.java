@@ -15,21 +15,10 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
     /**
-     * Возвращает пользователя по имени.
-     * Метод реализуется автоматически.
-     *
-     * @param name Имя пользователя
-     * @return Пользователь
+     * Возвращает пользователя по логину и паролю
+     * @param login Логин пользователя
+     * @param password Пароль пользователя
+     * @return Пользователя или null, если пользователя с таким логином и паролем не существует
      */
-    public User findByName(String name);
-
-
-    /**
-     * Возвращает всех пользователей, имя которых начинается с буквы S
-     * Реализуется, так как отмечен аннотацией @Query
-     *
-     * @return Список пользователей
-     */
-    @Query("select u from User u where u.name like 's%'")
-    public List<User> getAllStartsWithS();
+    public User findByLoginAndPassword(String login, String password);
 }
