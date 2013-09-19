@@ -13,6 +13,7 @@
         <module>webapp</module>
         <module>quantum-data</module>
         <module>quantum-deployer</module>
+        <module>quantum-service</module>
     </modules>
 
     <properties>
