@@ -10,6 +10,9 @@ import ru.kpfu.quantum.spring.repository.PendingMailRepository;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -22,6 +25,10 @@ public class MailService {
     private String sender;
     private String username;
     private String password;
+
+    private PendingMailRepository pendingMailRepository;
+
+    private MailManager mailManager;
 
     public void setHost(String host) {
         this.host = host;
@@ -39,10 +46,12 @@ public class MailService {
         this.password = password;
     }
 
-    private PendingMailRepository pendingMailRepository;
-
     public void setPendingMailRepository(PendingMailRepository pendingMailRepository) {
         this.pendingMailRepository = pendingMailRepository;
+    }
+
+    public void setMailManager(MailManager mailManager) {
+        this.mailManager = mailManager;
     }
 
     public void init() {
@@ -55,7 +64,7 @@ public class MailService {
 
     public void sendMail() {
         log.info("sendMail() called");
-        final Page<PendingMail> mailToSend = pendingMailRepository.findAll(new PageRequest(0, 10));
+        final Page<PendingMail> mailToSend = pendingMailRepository.findBySent(false, new PageRequest(0, 10));
         log.info(String.format("Found %d pending mails", mailToSend.getContent().size()));
 
         for(PendingMail pendingMail : mailToSend) {
@@ -113,6 +122,14 @@ public class MailService {
             String password = MailService.this.password;
             return new PasswordAuthentication(username, password);
         }
+    }
+
+    public void sendHelloWorld(String receiver) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("receiver", receiver);
+        final String mail  = mailManager.getMail("/helloWorld.ftl", params);
+        PendingMail pendingMail = new PendingMail(receiver, "Hello!", mail);
+        pendingMailRepository.save(pendingMail);
     }
 
 }

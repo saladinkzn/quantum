@@ -14,12 +14,16 @@
             </list>
         </property>
     </bean>
+    <bean class="ru.kpfu.quantum.service.mailing.MailManager" id="mailManager" init-method="init">
+
+    </bean>
     <bean class="ru.kpfu.quantum.service.mailing.MailService" id="mailService" init-method="init">
         <property name="host" value="${mail.host}"/>
         <property name="sender" value="${mail.sender}"/>
         <property name="username" value="${mail.username}"/>
         <property name="password" value="${mail.password}"/>
         <property name="pendingMailRepository" ref="pendingMailRepository"/>
+        <property name="mailManager" ref="mailManager"/>
     </bean>
 
     <task:scheduled-tasks>
