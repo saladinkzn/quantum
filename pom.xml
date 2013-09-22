@@ -71,6 +71,7 @@
                         <source>${com.java.version}</source>
                         <target>${com.java.version}</target>
                         <showWarnings>true</showWarnings>
+                        <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
             </plugins>
