@@ -13,7 +13,7 @@ BODY STYLES
     width: 116px;
     height: 24px;
     background-image:url(/resources/images/button.png);
-    padding: 6px 15px 6px 15px;
+    padding: 0px 0px 0px 0px;
 }
 
 #button_reg:hover {
