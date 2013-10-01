@@ -14,3 +14,6 @@ img.result {
     max-width: 200pt;
     max-height: 200pt;
 }
+.off {
+    display: none;
+}
