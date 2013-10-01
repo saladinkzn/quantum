@@ -24,7 +24,7 @@ public class Project {
     /**
      * Код программы
      */
-    @Column(nullable = false)
+    @Column(nullable = false, length = 8000)
     private String code;
 
     /**

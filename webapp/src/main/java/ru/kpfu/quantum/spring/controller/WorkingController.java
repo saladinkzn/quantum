@@ -71,11 +71,14 @@ public class WorkingController {
         return String.valueOf(project.getId());
     }
 
+
+    @ResponseBody
     @RequestMapping("/working/get-code")
     public String getCode(@RequestParam Long projectId){
         return projectRepository.findOne(projectId).getCode();
     }
 
+    @ResponseBody
     @RequestMapping(value = "/working/set-code", method = RequestMethod.POST)
     public String setCode(@RequestParam Long projectId,
                           @RequestParam String code)

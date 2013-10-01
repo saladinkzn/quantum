@@ -99,7 +99,7 @@ $(document).ready(function() {
          $(codeArea).removeAttr('disabled');
          $(codeArea).val("");
          $('#calculate-button').removeAttr('disabled');
-         $.get('/working/get-сode', {projectId: $(this).attr('recordId')}, function(data){
+         $.get('/working/get-code', {projectId: $(this).attr('recordId')}, function(data){
              $(codeArea).val(data);
          });
          e.preventDefault();
