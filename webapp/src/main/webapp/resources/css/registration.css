@@ -1,0 +1,46 @@
+/*
+============================================================================================
+BODY STYLES
+============================================================================================
+*/
+#reg {
+    width: 1000px;
+    padding-left:30px;
+    float: left;
+}
+
+#button_reg{
+    width: 116px;
+    height: 24px;
+    background-image:url(/resources/images/button.png);
+    padding: 6px 15px 6px 15px;
+}
+
+#button_reg:hover {
+    background-image:url(/resources/images/button_hover.png);
+}
+
+#button_reg:active {
+    background-image:url(/resources/images/button_onclick.png);
+}
+
+.text_titles {
+    font-size: 18px;
+    font-family: Verdana;
+    color: #b80000;
+    text-shadow: white 1px 1px 0px;
+}
+
+.text_forms {
+    font-size: 14px;
+    font-family: Verdana;
+    color: black;
+    text-shadow: #939393 1px 1px 1px;
+}
+
+.text_buttons {
+    font-size: 12px;
+    font-family: Verdana;
+    color: white;
+    font-weight: bold;
+}
