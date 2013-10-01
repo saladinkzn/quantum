@@ -26,6 +26,28 @@ public class WorkingController {
     private ProjectRepository projectRepository;
 
 
+    @RequestMapping("/working")
+    public String working(HttpServletRequest request) {
+        List<ProjectGroup> groups = projectGroupRepository.findAllGroups();
+        request.setAttribute("groups", groups);
+        return "working/working";
+    }
+
+    @RequestMapping(value = "/working/project-list", method = RequestMethod.GET)
+    public String getProjectDataList(HttpServletRequest request,
+                                     @RequestParam Long groupId) {
+        List<Project> projects = projectGroupRepository.findOneFetchChildren(groupId).getProjects();
+        request.setAttribute("records", projects);
+        return "working/data-list";
+    }
+
+    @RequestMapping(value = "/working/group-list", method = RequestMethod.GET)
+    public String getGroupDataList(HttpServletRequest request) {
+        List<ProjectGroup> groups = projectGroupRepository.findAllGroups();
+        request.setAttribute("records", groups);
+        return "working/data-list";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/working/create-group", method = RequestMethod.POST)
     public String createGroup(@RequestParam String groupName) {
@@ -33,6 +55,22 @@ public class WorkingController {
         projectGroupRepository.save(group);
         return String.valueOf(group.getId());
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/working/create-project", method = RequestMethod.POST)
+    public String createProject(@RequestParam Long groupId,
+                              @RequestParam String projectName) {
+        System.out.println(projectName);
+        Project project = new Project(projectName, "");   //TODO использовать другой конструктор, когда будет реализован пользователь
+        System.out.println(project.getName());
+        Project saved = projectRepository.save(project);
+        System.out.println(saved.getId());
+        ProjectGroup group = projectGroupRepository.findOneFetchChildren(groupId);
+        group.getProjects().add(saved);
+        projectGroupRepository.save(group);
+        return String.valueOf(project.getId());
+    }
+
 
     @ResponseBody
     @RequestMapping("/working/get-code")
