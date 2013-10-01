@@ -94,7 +94,7 @@ $(document).ready(function() {
      $('#project-list').on('click', 'a', function(e){
          var projectListButton = $('#project-list').find('button');
          $(projectListButton).html($(this).html()+' <span class="caret"></span>');
-         $(projectListButton).attr('projectId', $(this).data('recordId'));
+         $(projectListButton).attr('projectId', $(this).attr('recordId'));
          var codeArea = $('#working-area').find('textarea.code-area');
          $(codeArea).removeAttr('disabled');
          $(codeArea).val("");
