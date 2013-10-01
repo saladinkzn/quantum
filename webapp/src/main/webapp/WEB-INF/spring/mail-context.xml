@@ -27,6 +27,6 @@
     </bean>
 
     <task:scheduled-tasks>
-        <task:scheduled ref="mailService" method="sendMail" fixed-delay="5000"/>
+        <task:scheduled ref="mailService" method="sendMail" fixed-delay="${mail.period}"/>
     </task:scheduled-tasks>
 </beans>
