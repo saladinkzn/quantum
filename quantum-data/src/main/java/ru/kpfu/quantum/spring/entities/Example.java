@@ -16,12 +16,10 @@ public class Example {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = true)
-    @Lob
+    @Column(nullable = true, length = 8000)
     private String description;
 
-    @Column(nullable = false)
-    @Lob
+    @Column(nullable = false, length = 8000)
     private String code;
 
     protected Example() {

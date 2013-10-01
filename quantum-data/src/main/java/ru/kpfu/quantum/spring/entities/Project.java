@@ -24,8 +24,7 @@ public class Project {
     /**
      * Код программы
      */
-    @Column(nullable = false, unique = true)
-    @Lob
+    @Column(nullable = false, unique = true, length = 8000)
     private String code;
 
     /**
@@ -49,8 +48,7 @@ public class Project {
     /**
      * Описание проекта
      */
-    @Column(nullable = true)
-    @Lob
+    @Column(nullable = true, length = 8000)
     private String description;
 
     @ManyToOne(optional = false)
