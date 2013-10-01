@@ -29,8 +29,5 @@ public class IndexController {
     public String working() {
         return "working";
     }
-    @RequestMapping("/registration")
-    public String registration() {
-        return "registration";
-    }
+
 }
