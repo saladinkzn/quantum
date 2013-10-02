@@ -1,15 +1,24 @@
-package ru.kpfu.quantum.spring.dto;
+package ru.kpfu.quantum.spring.domain;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author sala
  */
 public class RegistrationBean {
+    @NotEmpty(message = "Поле не может быть пустым")
     private String firstname;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String lastname;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String userLog;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String userEmail;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String passw;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String checkPassw;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String registrKey;
 
     public String getFirstname() {
