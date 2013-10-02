@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,8 @@ import ru.kpfu.quantum.spring.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author sala
@@ -41,6 +44,11 @@ public class RegistrationController {
                              registrationBean.getUserEmail(), registrationBean.getUserLog(), registrationBean.getPassw());
         registrationBeanValidator.validate(registrationBean, bindingResult);
         if(bindingResult.hasErrors()) {
+            Map<String, Boolean> fieldsWithError = new HashMap<>();
+            for(FieldError fieldError : bindingResult.getFieldErrors()) {
+                fieldsWithError.put(fieldError.getField(), true);
+            }
+            httpServletRequest.setAttribute("fieldsWithError", fieldsWithError);
             return "registration";
         }
         userRepository.save(user);

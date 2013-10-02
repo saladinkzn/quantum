@@ -2,6 +2,7 @@
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="tags" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <custom:mainTemplate>
     <jsp:attribute name="title">
         Регистрация
@@ -62,7 +63,6 @@
     <jsp:attribute name="body">
         <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12" id="reg"><br/>
-            <span class="text_titles">Регистрация</span><br />
             <spring:form
                     acceptCharset="UTF-8"
                     cssClass="form-horizontal"
@@ -73,43 +73,76 @@
                     role="form"
                     >
                 <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10 col-md-offset-2 col-md-10 col-sm-offset-2 col-sm-10">
+                        <h2>Регистрация</h2>
+                    </div>
+                </div>
+
+                <div class="form-group <c:if test="${fieldsWithError['firstname']}">has-error</c:if>">
                     <label for="firstname" class="col-lg-2 col-md-2 col-sm-2 control-label">Имя</label>
-                    <spring:input path="firstname" cssClass="col-lg-2 col-md-2 col-sm-2" id="firstname"/>
-                    <spring:errors cssClass="help-block" path="firstname" cssStyle="color:red"/>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <spring:input path="firstname" cssClass="form-control" id="firstname"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <spring:errors cssClass="help-block" path="firstname"/>
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group <c:if test="${fieldsWithError['lastname']}">has-error</c:if>">
                     <label for="lastname" class="col-lg-2 col-md-2 col-sm-2 control-label">Фамилия</label>
-                    <spring:input path="lastname" cssClass="col-lg-2 col-md-2 col-sm-2" id="lastname"/>
-                    <spring:errors cssClass="help-block" path="lastname" cssStyle="color:red"/>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <spring:input path="lastname" cssClass="form-control" id="lastname"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <spring:errors cssClass="help-block" path="lastname" />
+                    </div>
+                </div>
+                <div class="form-group <c:if test="${fieldsWithError['userLog']}">has-error</c:if>">
+                    <label for="userLog" class="col-lg-2 col-md-2 col-sm-2 control-label">Логин<br/>(имя пользователя)</label>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <spring:input path="userLog" cssClass="form-control" id="userLog"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <spring:errors cssClass="help-block" path="userLog" element="p" />
+                    </div>
+                </div>
+                <div class="form-group <c:if test="${fieldsWithError['userEmail']}">has-error</c:if>">
+                    <label for="userEmail" class="col-lg-2 col-md-2 col-sm-2 control-label">Адрес эл. почты</label>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <spring:input path="userEmail" cssClass="form-control" id="userEmail"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                    <spring:errors cssClass="help-block" path="userEmail" />
+                        </div>
+                </div>
+                <div class="form-group <c:if test="${fieldsWithError['passw']}">has-error</c:if>">
+                    <label for="passw" class="col-lg-2 col-md-2 col-sm-2 control-label">Пароль</label>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <spring:password path="passw" cssClass="form-control" id="passw"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <spring:errors cssClass="help-block" path="passw" />
+                    </div>
+                </div>
+                <div class="form-group <c:if test="${fieldsWithError['checkPassw']}">has-error</c:if>">
+                    <label for="checkPassw" class="col-lg-2 col-md-2 col-sm-2 control-label">Подтверждение пароля</label>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <spring:password path="checkPassw" cssClass="form-control" id="checkPassw"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <spring:errors cssClass="help-block" path="checkPassw" />
+                    </div>
+                </div>
+                <div class="form-group <c:if test="${fieldsWithError['registrKey']}">has-error</c:if>">
+                    <label for="registrKey" class="col-lg-2 col-md-2 col-sm-2 control-label">Код регистрации</label>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <spring:input path="registrKey" cssClass="form-control" id="registrKey"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <spring:errors cssClass="help-block" path="registrKey" />
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="userLog" class="col-lg-2 col-md-2 col-sm-2 control-label">Логин(имя пользователя):</label>
-                    <%--<input type="text" class="col-lg-2" name="userLog" id="userLog">--%>
-                    <spring:input path="userLog" cssClass="col-lg-2 col-md-2 col-sm-2" id="userLog"></spring:input>
-                    <spring:errors cssClass="help-block" path="userLog" element="p" cssStyle="color:red"/>
-                </div>
-                <div class="form-group">
-                    <label for="userEmail" class="col-lg-2 col-md-2 col-sm-2 control-label">Адрес эл. почты:</label>
-                    <spring:input path="userEmail" cssClass="col-lg-2 col-md-2 col-sm-2" id="userEmail"/>
-                    <spring:errors cssClass="help-block" path="userEmail" cssStyle="color:red"/>
-                </div>
-                <div class="form-group">
-                    <label for="passw" class="col-lg-2 col-md-2 col-sm-2 control-label">Пароль:&nbsp;&nbsp;</label>
-                    <spring:password path="passw" cssClass="col-lg-2 col-md-2 col-sm-2" id="passw"/>
-                    <spring:errors cssClass="help-block" path="passw" cssStyle="color:red"/>
-                </div>
-                <div class="form-group">
-                    <label for="checkPassw" class="col-lg-2 col-md-2 col-sm-2 control-label">Подтверждение пароля:&nbsp;&nbsp;</label>
-                    <spring:password path="checkPassw" cssClass="col-lg-2 col-md-2 col-sm-2" id="checkPassw"/>
-                    <spring:errors path="checkPassw" cssStyle="color:red"/>
-                </div>
-                <div class="form-group">
-                    <label for="registrKey" class="col-lg-2 col-md-2 col-sm-2 control-label">Код регистрации:&nbsp;&nbsp;</label>
-                    <spring:input path="registrKey" cssClass="col-lg-2 col-md-2 col-sm-2" id="registrKey"/>
-                    <spring:errors cssClass="help-block" path="registrKey" cssStyle="color:red"/>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-offset-2 col-md-offset-2 ">
+                    <div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2 col-sm-offset-2 col-sm-2">
                         <button type="submit" name="send" id="button_reg" class="btn btn-info">Регистрация</button>
                     </div>
                 </div>
