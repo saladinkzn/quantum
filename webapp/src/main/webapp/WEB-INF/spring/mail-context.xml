@@ -10,7 +10,7 @@
         <property name="locations">
             <list>
                 <value>classpath*:mail.properties</value>
-                <value>file:${jboss.data.folder}/quantum/mail.properties</value>
+                <value>file:${jboss.data.dir}/quantum/mail.properties</value>
             </list>
         </property>
     </bean>
