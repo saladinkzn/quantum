@@ -22,6 +22,7 @@
         <property name="sender" value="${mail.sender}"/>
         <property name="username" value="${mail.username}"/>
         <property name="password" value="${mail.password}"/>
+        <property name="domain" value="${mail.site.domain}"/>
         <property name="pendingMailRepository" ref="pendingMailRepository"/>
         <property name="mailManager" ref="mailManager"/>
     </bean>

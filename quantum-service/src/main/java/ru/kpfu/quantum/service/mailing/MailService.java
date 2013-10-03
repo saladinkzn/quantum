@@ -26,6 +26,8 @@ public class MailService {
     private String username;
     private String password;
 
+    private String domain;
+
     private PendingMailRepository pendingMailRepository;
 
     private MailManager mailManager;
@@ -52,6 +54,10 @@ public class MailService {
 
     public void setMailManager(MailManager mailManager) {
         this.mailManager = mailManager;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public void init() {
@@ -100,8 +106,10 @@ public class MailService {
             // Set Subject: header field
             message.setSubject(pendingMail.getSubject());
 
+
+
             // Now set the actual message
-            message.setText(pendingMail.getMessage());
+            message.setContent(pendingMail.getMessage(), "text/html; charset=utf-8");
 
             // Send message
             Transport.send(message);
@@ -129,6 +137,16 @@ public class MailService {
         params.put("receiver", receiver);
         final String mail  = mailManager.getMail("/helloWorld.ftl", params);
         PendingMail pendingMail = new PendingMail(receiver, "Hello!", mail);
+        pendingMailRepository.save(pendingMail);
+    }
+
+    public void sendRegistrationSuccessful(String email, String firstName, String lastName) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("firstName", firstName);
+        params.put("lastName", lastName);
+        params.put("domain", domain);
+        final String mail = mailManager.getMail("/registrationSuccess.ftl", params);
+        PendingMail pendingMail = new PendingMail(email, "Регистрация завершена", mail);
         pendingMailRepository.save(pendingMail);
     }
 

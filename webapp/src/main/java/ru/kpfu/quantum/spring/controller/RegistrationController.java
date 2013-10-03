@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ru.kpfu.quantum.service.mailing.MailService;
 import ru.kpfu.quantum.spring.domain.RegistrationBean;
 import ru.kpfu.quantum.spring.domain.RegistrationBeanValidator;
 import ru.kpfu.quantum.spring.entities.User;
@@ -25,6 +26,8 @@ import java.util.Map;
 public class RegistrationController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    MailService mailService;
     @Autowired
     RegistrationBeanValidator registrationBeanValidator;
 
@@ -51,7 +54,8 @@ public class RegistrationController {
             httpServletRequest.setAttribute("fieldsWithError", fieldsWithError);
             return "registration";
         }
-        userRepository.save(user);
+        final User saved = userRepository.save(user);
+        mailService.sendRegistrationSuccessful(saved.getEmail(), saved.getFirstName(), saved.getLastName());
         return "registration/registrationSuccessful";
     }
 }
