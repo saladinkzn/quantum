@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.kpfu.quantum.spring.entities.User;
+import ru.kpfu.quantum.spring.repository.InviteRepository;
 import ru.kpfu.quantum.spring.repository.UserRepository;
 
 import java.util.Objects;
@@ -16,6 +17,8 @@ import java.util.Objects;
 public class RegistrationBeanValidator implements Validator {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    InviteRepository inviteRepository;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -35,6 +38,13 @@ public class RegistrationBeanValidator implements Validator {
             if(userFromDB.getLogin().equals(target.getUserLog())) {
                 errors.rejectValue("userLog", "error.registration.checkLoginAlreadyExists", "Этот логин уже занят");
             }
+        }
+        if(inviteRepository.findByCodeAndUsed(target.getRegistrKey(), false) == null) {
+            errors.rejectValue(
+                    "registrKey",
+                    "error.registration.checkRegisterKeyNotFound",
+                    "Код приглашения не найден или уже был использован"
+            );
         }
         //
         if(!Objects.equals(target.getCheckPassw(), target.getPassw())) {
