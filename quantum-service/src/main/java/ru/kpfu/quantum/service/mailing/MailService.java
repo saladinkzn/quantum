@@ -123,6 +123,16 @@ public class MailService {
 
     }
 
+    public void sendInvite(String email, String code) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("code", code);
+        params.put("email", email);
+        params.put("registerUrl", domain+"/registration");
+        final String mail = mailManager.getMail("/invite.ftl", params);
+        PendingMail pendingMail = new PendingMail(email, "Приглашение к регистрации", mail);
+        pendingMailRepository.save(pendingMail);
+    }
+
     private class SMTPAuthenticator extends Authenticator {
         @Override
         public PasswordAuthentication getPasswordAuthentication() {

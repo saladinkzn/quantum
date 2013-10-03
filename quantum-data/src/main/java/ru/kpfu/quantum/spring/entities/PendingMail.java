@@ -17,7 +17,7 @@ public class PendingMail {
     @Column(nullable = false)
     private String subject;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 8000)
     private String message;
 
     @Column(nullable = false)

@@ -28,7 +28,9 @@ public class Invite {
      * @param code код для инвайта
      */
     public Invite(String code) {
-        if(code == null)
+        if(code == null) {
+            throw new IllegalArgumentException("code cannot be null");
+        }
         this.code = code;
         this.used = false;
         this.registrant = null;

@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.kpfu.quantum.service.mailing.MailService;
 import ru.kpfu.quantum.spring.domain.RegistrationBean;
 import ru.kpfu.quantum.spring.domain.RegistrationBeanValidator;
@@ -33,8 +34,17 @@ public class RegistrationController {
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String renderRegistration(ModelMap modelMap) {
-        modelMap.addAttribute("registrationBean", new RegistrationBean());
+    public String renderRegistration(@RequestParam(required = false) String code,
+                                     @RequestParam(required = false) String email,
+                                     ModelMap modelMap) {
+        final RegistrationBean registrationBean = new RegistrationBean();
+        if(code != null) {
+            registrationBean.setRegistrKey(code);
+        }
+        if(email != null) {
+            registrationBean.setUserEmail(email);
+        }
+        modelMap.addAttribute("registrationBean", registrationBean);
         return "registration";
     }
 
