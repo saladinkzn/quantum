@@ -10,15 +10,25 @@ import java.util.Random;
  * @author sala
  */
 public class CodeGenerator {
-    private String salt;
+    private String inviteSalt;
     private Random random;
+    private String remindSalt;
 
-    public CodeGenerator(String salt) {
+    public CodeGenerator(String inviteSalt, String remindSalt) {
         this.random = new Random();
-        this.salt = salt;
+        this.inviteSalt = inviteSalt;
+
     }
 
-    public String getCode() {
+    public String getInviteCode() {
+        return getCode(inviteSalt);
+    }
+
+    public String getRemindCode() {
+        return getCode(remindSalt);
+    }
+
+    private String getCode(String salt) {
         try {
             long randomVal = random.nextLong();
             final MessageDigest md5 = MessageDigest.getInstance("MD5");

@@ -133,6 +133,15 @@ public class MailService {
         pendingMailRepository.save(pendingMail);
     }
 
+    public void sendPasswordRemind(String email, String remindCode) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("remindCode", remindCode);
+        params.put("domain", domain);
+        final String mail = mailManager.getMail("/remind.ftl", params);
+        PendingMail pendingMail = new PendingMail(email, "Восстановление пароля", mail);
+        pendingMailRepository.save(pendingMail);
+    }
+
     private class SMTPAuthenticator extends Authenticator {
         @Override
         public PasswordAuthentication getPasswordAuthentication() {

@@ -31,7 +31,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/sendInvite", method = RequestMethod.POST)
     public String sendInvite(@RequestParam String email) {
-        final String code = codeGenerator.getCode();
+        final String code = codeGenerator.getInviteCode();
         final Invite invite = new Invite(code);
         mailService.sendInvite(email, code);
         inviteRepository.save(invite);
