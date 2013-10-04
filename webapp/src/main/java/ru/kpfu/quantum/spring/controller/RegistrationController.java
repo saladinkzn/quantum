@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.kpfu.quantum.service.mailing.MailService;
 import ru.kpfu.quantum.spring.domain.RegistrationBean;
 import ru.kpfu.quantum.spring.domain.RegistrationBeanValidator;
+import ru.kpfu.quantum.spring.entities.Invite;
 import ru.kpfu.quantum.spring.entities.User;
+import ru.kpfu.quantum.spring.repository.InviteRepository;
 import ru.kpfu.quantum.spring.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,8 @@ public class RegistrationController {
     MailService mailService;
     @Autowired
     RegistrationBeanValidator registrationBeanValidator;
+    @Autowired
+    InviteRepository inviteRepository;
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -65,6 +69,10 @@ public class RegistrationController {
             return "registration";
         }
         final User saved = userRepository.save(user);
+        final Invite invite = inviteRepository.findByCodeAndUsed(registrationBean.getRegistrKey(), false);
+        invite.setUsed(true);
+        invite.setRegistrant(saved);
+        inviteRepository.save(invite);
         mailService.sendRegistrationSuccessful(saved.getEmail(), saved.getFirstName(), saved.getLastName());
         return "registration/registrationSuccessful";
     }
