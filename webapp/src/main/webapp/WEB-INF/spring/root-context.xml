@@ -8,6 +8,7 @@
 
     <bean class="ru.kpfu.quantum.service.registration.CodeGenerator">
         <constructor-arg index="0" value="this.is.very.secure"/>
+        <constructor-arg index="1" value="this.is.very.secure.too"/>
     </bean>
 
 
