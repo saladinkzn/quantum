@@ -1,4 +1,4 @@
-package ru.kpfu.quantum.spring.domain;
+package ru.kpfu.quantum.spring.domain.registration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
