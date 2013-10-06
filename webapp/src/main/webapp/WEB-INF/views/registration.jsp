@@ -108,7 +108,7 @@
                 <div class="form-group <c:if test="${fieldsWithError['userEmail']}">has-error</c:if>">
                     <label for="userEmail" class="col-lg-2 col-md-2 col-sm-2 control-label">Адрес эл. почты</label>
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <spring:input path="userEmail" cssClass="form-control" id="userEmail"/>
+                        <spring:input type="email" path="userEmail" cssClass="form-control" id="userEmail"/>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                     <spring:errors cssClass="help-block" path="userEmail" />

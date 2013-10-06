@@ -54,9 +54,13 @@ public class RegistrationController {
     public String processRegistration(HttpServletRequest httpServletRequest,
                                       @Valid @ModelAttribute RegistrationBean registrationBean,
                                       BindingResult bindingResult) {
+        final String userEmail = registrationBean.getUserEmail() == null ? null : registrationBean.getUserEmail().trim();
+        final String userLogin = registrationBean.getUserLog() == null ? null : registrationBean.getUserLog().trim();
         User user = new User(registrationBean.getFirstname(),
                              registrationBean.getLastname(),
-                             registrationBean.getUserEmail(), registrationBean.getUserLog(), registrationBean.getPassw());
+                             userEmail,
+                             userLogin,
+                             registrationBean.getPassw());
         registrationBeanValidator.validate(registrationBean, bindingResult);
         if(bindingResult.hasErrors()) {
             ValidationUtils.includeFieldsWithErrorsMap(httpServletRequest, bindingResult);

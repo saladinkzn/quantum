@@ -29,15 +29,16 @@ public class RegistrationBeanValidator implements Validator {
     public void validate(Object o, Errors errors) {
         final RegistrationBean target = (RegistrationBean)o;
         //
-        final User userFromDB = userRepository.findByLoginOrEmail(target.getUserLog(), target.getUserEmail());
-        if(userFromDB != null) {
-            // Что то занято
-            if(userFromDB.getEmail().equals(target.getUserEmail())) {
-                errors.rejectValue("userEmail", "error.registration.checkEmailAlreadyExists", "Пользователь с такой электронной почтой уже зарегистрирован");
-            }
-            if(userFromDB.getLogin().equals(target.getUserLog())) {
-                errors.rejectValue("userLog", "error.registration.checkLoginAlreadyExists", "Этот логин уже занят");
-            }
+        final String userLog = target.getUserLog() == null ? null : target.getUserLog().trim();
+        final String userEmail = target.getUserEmail() == null ? null : target.getUserEmail().trim();
+        //
+        final User byEmail = userRepository.findByEmail(userEmail);
+        if(byEmail != null) {
+            errors.rejectValue("userEmail", "error.registration.checkEmailAlreadyExists", "Пользователь с такой электронной почтой уже зарегистрирован");
+        }
+        final User byLogin = userRepository.findByLogin(userLog);
+        if(byLogin != null) {
+            errors.rejectValue("userLog", "error.registration.checkLoginAlreadyExists", "Этот логин уже занят");
         }
         if(inviteRepository.findByCodeAndUsed(target.getRegistrKey(), false) == null) {
             errors.rejectValue(
