@@ -25,10 +25,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
     /**
      * Возвращает пользователя по логину или электронной почте
      * @param login Логин пользователя
-     * @param email Электронная почта пользователя
-     * @return Пользователя или null, если пользователя с таким логином или электронной почтой не существует
+     * @return Пользователя или null, если пользователя с таким логином
      */
-    public User findByLoginOrEmail(String login, String email);
+    public User findByLogin(String login);
 
     public User findByEmail(String email);
 }
