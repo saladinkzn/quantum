@@ -301,7 +301,11 @@ function Editor( editor ){
        }
      ]
   */
-  function setProject( proj ){
+  function setProject( proj ){    
+    for( var i=0; i<functionsNames.length; ++i ){
+      gates.delGate( functionsNames[i] );
+      }
+
     functions      = [];
     functionsNames = [];
 
@@ -317,9 +321,12 @@ function Editor( editor ){
 
     func = functions[functionsNames[0]];
 
+    fnList.reset( functionsNames );
     window.requestAnimFrame(paintEvent);
-    gates .paintEvent();
-    fnList.paintEvent();
+    for( var i=0; i<functionsNames.length; ++i ){
+      if( functionsNames[i]!=="main" )
+        gates.addGate( functionsNames[i], functions[functionsNames[0]].qBitsCount );
+      }
     }
 
   function getProjectAsJson(){
@@ -344,10 +351,10 @@ function Editor( editor ){
   editor.setupEditingFunction = setupEditingFunction;
 
   editor.paintEvent  = paintEvent;
-  editor.onclick     = paintEvent;
   editor.onmousemove = mouseMove;
   editor.onmouseup   = mouseUp;
-  //editor.onkeydown   = testJSON;
+
+  //editor.onclick     = testJSON;
 
   editor.addFunction = function( f ){
     if( func.editColumn===-1 )

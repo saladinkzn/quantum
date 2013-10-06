@@ -1,7 +1,6 @@
 function FnList( fnList ){
   var p = painter( fnList );
   var mx = 0, my = 0;
-  var argCount = 0;
 
   var gts = [
         {name:"main"   , sel:0 }
@@ -137,6 +136,14 @@ function FnList( fnList ){
     editor.setupEditingFunction( str, argN );
     }
 
+  function reset( gt ){
+    gts = [];
+    for( var i=0; i<gt.length; ++i ){
+      gts[ gts.length ] = {name:gt[i], sel:0};
+      }
+    window.requestAnimFrame(paintEvent);
+    }
+
   var input = document.getElementById("fnname");
   var num   = document.getElementById("argC");
   num.value = "4";
@@ -144,6 +151,7 @@ function FnList( fnList ){
   input.oninput       = validateInput;
   num.oninput         = validateInput;
 
+  fnList.reset        = reset;
   fnList.add          = add;
   fnList.paintEvent   = paintEvent;
   fnList.onclick      = paintEvent;
