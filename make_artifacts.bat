@@ -1,1 +1,1 @@
-@start mvn clean package
+@start mvn clean install -P kala-dev
