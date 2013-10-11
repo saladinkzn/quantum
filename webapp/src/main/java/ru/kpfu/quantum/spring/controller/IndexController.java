@@ -34,7 +34,7 @@ public class IndexController {
 	 * 
 	 * @return строка-название jsp-файла.
 	 */
-	@RequestMapping("/")
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index() {
 		return "index";
 	}
