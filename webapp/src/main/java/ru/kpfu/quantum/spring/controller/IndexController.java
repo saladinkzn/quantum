@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,15 +37,14 @@ public class IndexController {
 	 * @return строка-название jsp-файла.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index() {
+	public String index(ModelMap modelMap) {
+        modelMap.addAttribute("loginBean", new LoginBean());
 		return "index";
 	}
 
 	/**
 	 * Выполнение логина
 	 * @param httpServletRequest ревест
-	 * @param login логин
-	 * @param password пас
 	 * @return строку с адресом редиректа
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
@@ -53,8 +54,7 @@ public class IndexController {
 		String page;
 		if (user != null) {
 			// кладем в сессию юзера
-			httpServletRequest.getSession().setAttribute(UserUtils.USER_KEY,
-					user);
+			httpServletRequest.getSession().setAttribute(UserUtils.USER_KEY, user);
 			page = "/working";
 		} else {
 			page = "/passwordRemind?login=" + loginBean.getLogin();
