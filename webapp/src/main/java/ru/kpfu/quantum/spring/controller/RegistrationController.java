@@ -4,23 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kpfu.quantum.service.mailing.MailService;
-import ru.kpfu.quantum.spring.domain.RegistrationBean;
-import ru.kpfu.quantum.spring.domain.RegistrationBeanValidator;
+import ru.kpfu.quantum.spring.domain.registration.RegistrationBean;
+import ru.kpfu.quantum.spring.domain.registration.RegistrationBeanValidator;
 import ru.kpfu.quantum.spring.entities.Invite;
 import ru.kpfu.quantum.spring.entities.User;
 import ru.kpfu.quantum.spring.repository.InviteRepository;
 import ru.kpfu.quantum.spring.repository.UserRepository;
+import ru.kpfu.quantum.spring.utils.ValidationUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author sala
@@ -56,16 +54,16 @@ public class RegistrationController {
     public String processRegistration(HttpServletRequest httpServletRequest,
                                       @Valid @ModelAttribute RegistrationBean registrationBean,
                                       BindingResult bindingResult) {
+        final String userEmail = registrationBean.getUserEmail() == null ? null : registrationBean.getUserEmail().trim();
+        final String userLogin = registrationBean.getUserLog() == null ? null : registrationBean.getUserLog().trim();
         User user = new User(registrationBean.getFirstname(),
                              registrationBean.getLastname(),
-                             registrationBean.getUserEmail(), registrationBean.getUserLog(), registrationBean.getPassw());
+                             userEmail,
+                             userLogin,
+                             registrationBean.getPassw());
         registrationBeanValidator.validate(registrationBean, bindingResult);
         if(bindingResult.hasErrors()) {
-            Map<String, Boolean> fieldsWithError = new HashMap<>();
-            for(FieldError fieldError : bindingResult.getFieldErrors()) {
-                fieldsWithError.put(fieldError.getField(), true);
-            }
-            httpServletRequest.setAttribute("fieldsWithError", fieldsWithError);
+            ValidationUtils.includeFieldsWithErrorsMap(httpServletRequest, bindingResult);
             return "registration";
         }
         final User saved = userRepository.save(user);
@@ -76,4 +74,5 @@ public class RegistrationController {
         mailService.sendRegistrationSuccessful(saved.getEmail(), saved.getFirstName(), saved.getLastName());
         return "registration/registrationSuccessful";
     }
+
 }
