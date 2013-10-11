@@ -1,60 +1,38 @@
+<%@ taglib prefix="common" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Quantum</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <%-- Bootstrap --%>
-        <link href="/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="/resources/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
-        <%-- Jquery --%>
-        <script src="/resources/js/jquery-1.10.2.min.js" type="text/javascript"></script>
-        <script src="/resources/js/bootstrap.min.js" type="text/javascript"></script>
-    </head>
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top"></div>
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well">
-          <div>
-            <span class="label">Логин</span>
-          </div>
-          <div>
-            <input type="text" class="input-medium">
-          </div>
-          <div>
-            <span class="label">Пароль</span>
-          </div>
-          <div>
-            <input type="text" class="input-medium">
-          </div>
-          <div>
-            <a class="btn btn-primary btn-block">Войти</a>
-          </div>
-          <div>
-            <a class="btn-lnk">Зарегистрироваться</a>
-          </div>
-          <div>
-            <a class="btn-lnk">Восстановить Пароль</a>
-          </div>
-          </div>
-          <!--/.well -->
+<common:mainTemplate>
+    <jsp:attribute name="title">Авторизация</jsp:attribute>
+    <jsp:attribute name="body">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <spring:form role="form" class="form-horizontal" commandName="loginBean" action="/" method="post">
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-3 col-md-3 col-sm-3">
+                                <h2>Вход</h2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="login" class="control-label col-lg-2 col-md-2 col-sm-2">Логин</label>
+                            <div class="col-lg-3 col-md-3 col-sm-3 ">
+                                <spring:input path="login" id="login" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label col-lg-2 col-md-2 col-sm-2">Пароль</label>
+                            <div class="col-lg-3 col-md-3 col-sm-3 ">
+                                <spring:password path="password" id="password" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-3 col-md-3 col-sm-3">
+                                <spring:button class="btn btn-info">Войти</spring:button>
+                            </div>
+                        </div>
+                    </spring:form>
+                </div>
+            </div>
         </div>
-        <!--/span-->
-        <div class="span9">
-          <div class="hero-unit">
-            <p>123</p>
-          </div>
-          <!--/row-->
-          <!--/row-->
-        </div>
-        <!--/span-->
-      </div>
-      <!--/row-->
-      <hr>
-    </div>
-    <!--/.fluid-container-->
-  </body>
-</html>
+    </jsp:attribute>
+</common:mainTemplate>
