@@ -1,6 +1,8 @@
 package ru.kpfu.quantum.spring.controller;
 
 import java.lang.String;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +52,15 @@ public class IndexController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String processLogin(HttpServletRequest httpServletRequest,
-			 @Valid @ModelAttribute LoginBean loginBean) {
+			 @Valid @ModelAttribute LoginBean loginBean, BindingResult bindingResult) {
+        Map<String, Boolean> fieldErrors = new HashMap<>();
+        if(bindingResult.hasErrors()) {
+            for(FieldError fieldError : bindingResult.getFieldErrors()) {
+                fieldErrors.put(fieldError.getField(), true);
+            }
+            httpServletRequest.setAttribute("fieldErrors", fieldErrors);
+            return "index";
+        }
 		User user = userRepository.findByLoginAndPassword(loginBean.getLogin(), loginBean.getPassword());
 		String page;
 		if (user != null) {
