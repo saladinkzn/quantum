@@ -13,5 +13,8 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 
+    @Query("select distinct p from ProjectGroup pg join pg.projects p where pg.id = ?1 and p.archive = ?2")
+    public List<Project> findAllByArchive(Long groupId, boolean isArchive);
+
 
 }

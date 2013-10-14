@@ -33,6 +33,7 @@
     </ul>
 </div>
 <div id='working-area' class="container working-area">
+    <div class="my container">
     <ul class="pull-left list-inline">
         <li id="group-list">
             <div class="btn-group">
@@ -40,7 +41,7 @@
                     Groups <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li><input type="text" placeholder="Новый проект"></input></li>
+                    <li><input type="text" placeholder="Новый проект"/></li>
                     <li class="divider"></li>
                     <div class="data-list">
                         <c:forEach var="record" items="${groups}">
@@ -56,7 +57,7 @@
                     Projects <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li><input type="text" placeholder="Новый проект"></input></li>
+                    <li><input type="text" placeholder="Новый проект"/></li>
                     <li class="divider"></li>
                     <div class="data-list">
                     </div>
@@ -65,12 +66,15 @@
         </li>
         <li id="filter-list">
             <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" value="All">
                     Filters <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li class="divider"></li>
                     <div class="data-list">
+                        <c:forEach var="filter" items="${filters}">
+                            <li><a value="${filter}" href="#">${filter}</a></li>
+                        </c:forEach>
                     </div>
                 </ul>
             </div>
@@ -81,16 +85,22 @@
             <button class="btn btn-primary">Настройка режима отображения</button>
         </li>
         <li>
-            <button class="btn btn-primary">В архив</button>
+            <button id="save-button" disabled class="btn btn-primary">Сохранить</button>
         </li>
         <li>
             <button id='calculate-button' disabled class="btn btn-primary">Рассчитать</button>
         </li>
+        <li>
+            <button id="archive-button" disabled class="btn btn-primary">В архив</button>
+        </li>
     </ul>
-    <textarea class="form-control code-area" disabled></textarea>
-    <div class="result off">
-        <a class="btn btn-primary">Скачать</a>
-        <img class="result" src="/resources/images/test.jpg">
+    </div>
+    <div id="project-area" class="my container">
+        <button id="view-button" class="btn btn-primary pull-right"></button>
+        <textarea class="form-control code-area" disabled></textarea>
+        <div class="my container off"></div>
+        <div class="result off">
+        </div>
     </div>
 </div>
 </body>

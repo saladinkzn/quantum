@@ -24,4 +24,6 @@ public interface ProjectGroupRepository extends CrudRepository<ProjectGroup, Lon
     @Query("select distinct pg from ProjectGroup pg left join fetch pg.projects p where pg.id = ?1")
     public ProjectGroup findOneFetchChildren(Long groupId);
 
+
+
 }
