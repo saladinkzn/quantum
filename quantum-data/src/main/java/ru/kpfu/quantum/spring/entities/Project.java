@@ -46,6 +46,12 @@ public class Project {
     private boolean archive;
 
     /**
+     * Признак, является ли проект вычисленным
+     */
+    @Column(nullable = false)
+    private boolean calculated;
+
+    /**
      * Описание проекта
      */
     @Column(nullable = true, length = 8000)
@@ -73,6 +79,7 @@ public class Project {
         this.created = new Date();
         this.lastModified = new Date();
         this.archive = false;
+        this.calculated = false;
         this.creator = creator;
     }          */
 
@@ -91,6 +98,7 @@ public class Project {
         this.created = new Date();
         this.lastModified = new Date();
         this.archive = false;
+        this.calculated = false;
     }
 
     /**
@@ -136,6 +144,13 @@ public class Project {
     }
 
     /**
+     * @return Признак "вычисленности"
+     */
+    public boolean isCalculated(){
+        return calculated;
+    }
+
+    /**
      * @return Описание проекта
      */
     public String getDescription() {
@@ -148,6 +163,10 @@ public class Project {
 
     public void setArchive(boolean archive) {
         this.archive = archive;
+    }
+
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
     }
 
     public void setDescription(String description) {

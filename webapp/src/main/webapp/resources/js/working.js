@@ -29,7 +29,9 @@ $(document).ready(function() {
                     var codeArea = $('#working-area').find('textarea.code-area');
                     $(codeArea).val("");
                     $(codeArea).attr('disabled', 'disabled'); //Делаем поле ввода кода неактивным
-                    $('#calculate-button').attr('disabled', 'disables');
+                    $('#calculate-button').attr('disabled', 'disabled');
+                    $('#save-button').attr('disabled', 'disabled');
+                    $('#archive-button').attr('disabled', 'disabled');
                     $(groupListButton).dropdown('toggle');
                     $(currentInput).val("");
                     var projectListButton = $('#project-list').find('button');
@@ -47,7 +49,8 @@ $(document).ready(function() {
         $(groupListButton).html($(this).html()+' <span class="caret"></span>');
         $(this).attr('recordId');
         $(groupListButton).attr('groupId', $(this).attr('recordId'));
-        $.get('/working/project-list', {groupId: $(this).attr('recordId')}, function(data){
+        $.get('/working/project-list', {groupId: $(this).attr('recordId'),
+            filter: $('#filter-list').find('button').val()}, function(data){
             $('#project-list').find('div.data-list').replaceWith($(data)); //Обновляем список проектов для выбранной группы.
         });
         var projectListButton = $('#project-list').find('button');
@@ -57,7 +60,9 @@ $(document).ready(function() {
         var codeArea = $('#working-area').find('textarea.code-area');
         $(codeArea).val("");
         $(codeArea).attr('disabled', 'disabled');
-        $('#calculate-button').attr('disabled', 'disables');
+        $('#calculate-button').attr('disabled', 'disabled');
+        $('#save-button').attr('disabled', 'disabled');
+        $('#archive-button').attr('disabled', 'disabled');
         e.preventDefault();
     });
 
@@ -77,14 +82,18 @@ $(document).ready(function() {
                          $(projectListButton).html($(currentInput).val() + ' <span class="caret"></span>');
                          $(projectListButton).attr('projectId', id);
                          $('#working-area').find('textarea.code-area').removeAttr('disabled');
-                         $.get('/working/project-list', {groupId: $('#group-list').find('button').attr('groupId')}, function(data){
+                         $.get('/working/project-list', {groupId: $('#group-list').find('button').attr('groupId'),
+                             filter: $('#filter-list').find('button').val()}, function(data){
                              $('#project-list').find('div.data-list').replaceWith($(data));
                          })
                          $(projectListButton).dropdown('toggle');
                          $(projectListButton).removeAttr('disabled');
                          $('#calculate-button').removeAttr('disabled');
+                         $('#save-button').removeAttr('disabled');
+                         $('#archive-button').attr('disabled', 'disabled');
                          $(currentInput).val("");
                          $('#working-area').find('textarea.code-area').val("");
+                         $('#project-area').find('div.result').remove();
                      });
              }
          });
@@ -95,26 +104,76 @@ $(document).ready(function() {
          var projectListButton = $('#project-list').find('button');
          $(projectListButton).html($(this).html()+' <span class="caret"></span>');
          $(projectListButton).attr('projectId', $(this).attr('recordId'));
-         var codeArea = $('#working-area').find('textarea.code-area');
-         $(codeArea).removeAttr('disabled');
-         $(codeArea).val("");
          $('#calculate-button').removeAttr('disabled');
-         $.get('/working/get-code', {projectId: $(this).attr('recordId')}, function(data){
-             $(codeArea).val(data);
+         $('#save-button').removeAttr('disabled');
+         $.get('/working/get-project', {projectId: $(this).attr('recordId')}, function(data){
+             $('#project-area').replaceWith($(data));
+             if($('#project-area').find('textarea.code-area').attr('calculated') == 'true') {
+                 $('#archive-button').removeAttr('disabled');
+             }
+             else {
+                 $('#archive-button').attr('disabled', 'disabled');
+             }
+
          });
          e.preventDefault();
      })
 
-    //Рассчитываем проект
-    $('#calculate-button').click(function(){
-        $.post('/working/set-code',
+
+    //При клике на элемент списка фильтров
+    $('#filter-list').on('click', 'a', function(e){
+        var filterListButton = $('#filter-list').find('button');
+        $(filterListButton).html($(this).html()+' <span class="caret"></span>');
+        $(filterListButton).val($(this).html());
+        var groupListButton = $('#group-list').find('button');
+        if(groupListButton != ""){
+            $.get('/working/project-list', {groupId: $(groupListButton).attr('groupId'),
+                filter: $(filterListButton).val()}, function(data){
+                $('#project-list').find('div.data-list').replaceWith($(data));
+            });
+        }
+        e.preventDefault();
+    });
+
+    //Сохраняем проект
+    $('#save-button').click(function(){
+        $.post('/working/save',
             {
                 projectId: $('#project-list').find('button').attr('projectId'),
                 code: $('#working-area').find('textarea.code-area').val()
             },
             function(){
+                $('#working-area').find('div.result').addClass('off');
+            });
+    });
+
+    //Рассчитываем проект
+    $('#calculate-button').click(function(){
+        $.post('/working/calculate',
+            {
+                projectId: $('#project-list').find('button').attr('projectId'),
+                code: $('#working-area').find('textarea.code-area').val()
+            },
+            function(data){
+                $('#working-area').find('div.result').replaceWith($(data));
 
             });
+    });
+
+    //Архивировать проект
+    $('#archive-button').click(function(){
+        $.post('/working/archive',
+            {
+                projectId: $('#project-list').find('button').attr('projectId')            },
+            function(){
+
+        });
+    });
+
+    //Переключение типа редактора
+    $('#working-area').on('click', 'button#view-button', function(){
+        $('#project-area').find('textarea.code-area').toggleClass('off');
+        $('#project-area').find('div.my').toggleClass('off');
     });
 
 });

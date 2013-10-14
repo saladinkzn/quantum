@@ -17,3 +17,9 @@ img.result {
 .off {
     display: none;
 }
+
+div.my.container {
+    padding-left: 0pt;
+    padding-right: 0pt;
+    display: block;
+}
