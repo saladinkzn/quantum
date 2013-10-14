@@ -22,7 +22,11 @@ public class AuthenticationFilter implements Filter {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
             final String requestURI = httpServletRequest.getRequestURI();
-            if(!requestURI.startsWith("/admin") && !requestURI.startsWith("/registration") && !requestURI.startsWith("/resources")) {
+            if(!requestURI.startsWith("/admin") &&
+               !requestURI.startsWith("/registration") &&
+               !requestURI.startsWith("/passwordRemind") &&
+               !requestURI.startsWith("/changePassword") &&
+               !requestURI.startsWith("/resources")) {
                 if(!UserUtils.isLogined(httpServletRequest) && !"/".equals(requestURI)) {
                     httpServletResponse.sendRedirect("/");
                     return;

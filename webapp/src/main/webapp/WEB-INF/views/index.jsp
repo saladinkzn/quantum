@@ -39,6 +39,16 @@
                             </div>
                         </div>
                     </spring:form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+                                <a href="/registration">Зарегистрироваться</a>
+                            </div>
+                            <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+                                <a href="/passwordRemind">Восстановление пароля</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
