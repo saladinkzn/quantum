@@ -66,6 +66,7 @@ public class MailService {
         log.info("Sender: " + sender);
         log.info("Username: " + username);
         log.info("Password: " + password);
+        log.info("Domain: " + domain);
     }
 
     public void sendMail() {
