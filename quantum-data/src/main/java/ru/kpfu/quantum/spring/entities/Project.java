@@ -7,6 +7,7 @@ import java.util.Date;
  * @author sala
  */
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "creatorId"}))
 public class Project {
     /**
      * Идентификатор проекта
@@ -18,7 +19,7 @@ public class Project {
     /**
      * Название проекта
      */
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     /**
@@ -58,6 +59,7 @@ public class Project {
     private String description;
 
     @ManyToOne()
+    @JoinColumn(name = "creatorId")
     private User creator;
 
     protected Project() {
