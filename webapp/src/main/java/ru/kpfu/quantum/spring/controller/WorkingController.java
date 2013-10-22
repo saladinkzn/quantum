@@ -28,7 +28,7 @@ public class WorkingController {
 
     enum Filters {All, Working, Archive}
 
-    @RequestMapping("/working")
+    @RequestMapping("/")
     public String working(HttpServletRequest request) {
         List<ProjectGroup> groups = projectGroupRepository.findAllGroups();
         request.setAttribute("groups", groups);

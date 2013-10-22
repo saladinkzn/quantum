@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <spring:form role="form" class="form-horizontal" commandName="loginBean" action="/" method="post">
+                    <spring:form role="form" class="form-horizontal" commandName="loginBean" action="/login" method="post">
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-3 col-md-3 col-sm-3">
                                 <h2>Вход</h2>

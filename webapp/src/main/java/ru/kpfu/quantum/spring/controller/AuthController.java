@@ -26,7 +26,7 @@ import ru.kpfu.quantum.spring.utils.UserUtils;
  * 
  */
 @Controller
-public class IndexController {
+public class AuthController {
 	/**
 	 * С помощью DependencyInjection получает объект для работы с пользователям
 	 */
@@ -39,7 +39,7 @@ public class IndexController {
 	 * 
 	 * @return строка-название jsp-файла.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
         modelMap.addAttribute("loginBean", new LoginBean());
 		return "index";
@@ -50,7 +50,7 @@ public class IndexController {
 	 * @param httpServletRequest ревест
 	 * @return строку с адресом редиректа
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String processLogin(HttpServletRequest httpServletRequest,
 			 @Valid @ModelAttribute LoginBean loginBean, BindingResult bindingResult) {
         Map<String, Boolean> fieldErrors = new HashMap<>();
@@ -66,7 +66,7 @@ public class IndexController {
 		if (user != null) {
 			// кладем в сессию юзера
 			httpServletRequest.getSession().setAttribute(UserUtils.USER_KEY, user);
-			page = "/working";
+			page = "/";
 		} else {
 			page = "/passwordRemind?login=" + loginBean.getLogin();
 		}

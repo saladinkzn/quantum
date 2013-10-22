@@ -3,7 +3,8 @@
 <%@ taglib prefix="common" tagdir="/WEB-INF/tags" %>
 <%--@elvariable id="groups" type="java.util.List<ru.kpfu.quantum.spring.entities.ProjectGroup>"--%>
 
-<common:mainTemplate>
+<common:mainTemplate activePage="working">
+
     <jsp:attribute name="title">
         Разработка
     </jsp:attribute>
