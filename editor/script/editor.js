@@ -342,6 +342,7 @@ function Editor( editor ){
         gates.addGate( functionsNames[i], functions[functionsNames[0]].qBitsCount );
       }
     }
+  editor.setProject = setProject;
 
   function getProjectAsJson(){
     var ret = new Array(functionsNames.length);
@@ -354,6 +355,7 @@ function Editor( editor ){
     var s = JSON.stringify(ret);
     return s;
     }
+  editor.getProjectAsJson = getProjectAsJson;
 
   function testJSON(){
     var p = getProjectAsJson();
