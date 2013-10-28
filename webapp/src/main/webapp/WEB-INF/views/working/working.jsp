@@ -94,6 +94,12 @@
                                                id='argC' name="argC" size = "4" maxlength="4"/>
                             <input type="button" id='addFnButton' onclick="fnList.add()" value="Add" disabled = "true" />
                         </form>
+                        <form>
+                            <br/>
+                            Arg name:<br/>
+                            <input type="text" id='argName' name="argName" size = "24" maxlength="24"/>
+                            <br/>
+                        </form>
                         <canvas id='fnList' style="background-color:#FFFFFF; width:inherit; height:inherit;" >
                             ...
                         </canvas>
@@ -115,6 +121,7 @@
                         </canvas>
                         <script type="text/javascript" src="/resources/js/editor/gates.js"></script>
                     </div>
+
                 </div>
             </div>
             <div class="result off">

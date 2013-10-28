@@ -144,9 +144,9 @@ function FnList( fnList ){
     window.requestAnimFrame(paintEvent);
     }
 
-  var input = document.getElementById("fnname");
-  var num   = document.getElementById("argC");
-  num.value = "4";
+  var input    = document.getElementById("fnname");
+  var num      = document.getElementById("argC");
+  num.value     = "4";
 
   input.oninput       = validateInput;
   num.oninput         = validateInput;
