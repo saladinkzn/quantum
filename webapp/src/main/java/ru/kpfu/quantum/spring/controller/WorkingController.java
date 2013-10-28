@@ -114,8 +114,7 @@ public class WorkingController {
     }
 
     @RequestMapping(value = "/working/calculate", method = RequestMethod.POST)
-    public String calculate(HttpServletRequest request,
-                            @RequestParam Long projectId,
+    public String calculate(@RequestParam Long projectId,
                             @RequestParam String code){
         Project project = projectRepository.findOne(projectId);
         project.setCode(code);
