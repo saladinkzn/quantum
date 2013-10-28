@@ -1,7 +1,9 @@
+<%@ taglib prefix="common" tagdir="/WEB-INF/tags" %>
 <%@ tag display-name="mainTemplate" %>
 <%@ attribute name="title" fragment="true" %>
 <%@ attribute name="body" fragment="true" %>
 <%@ attribute name="customHead" fragment="true" %>
+<%@ attribute name="activePage" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +21,7 @@
     </head>
     <body>
         <div class="container">
-            <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+            <common:header activePage="${activePage}"/>
             <jsp:invoke fragment="body"/>
         </div>
     </body>

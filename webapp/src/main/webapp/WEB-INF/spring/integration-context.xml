@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath*:integration.properties</value>
+                <value>file:${jboss.server.data.dir}/quantum/integration.properties</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="ru.kpfu.quantum.service.integration.IntegrationService">
+        <property name="host" value="${integration.server.host}"/>
+        <property name="port" value="${integration.server.port}"/>
+    </bean>
+</beans>

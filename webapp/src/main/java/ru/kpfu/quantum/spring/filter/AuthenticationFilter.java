@@ -26,9 +26,10 @@ public class AuthenticationFilter implements Filter {
                !requestURI.startsWith("/registration") &&
                !requestURI.startsWith("/passwordRemind") &&
                !requestURI.startsWith("/changePassword") &&
-               !requestURI.startsWith("/resources")) {
-                if(!UserUtils.isLogined(httpServletRequest) && !"/".equals(requestURI)) {
-                    httpServletResponse.sendRedirect("/");
+               !requestURI.startsWith("/resources") &&
+               !requestURI.startsWith("/login")) {
+                if(!UserUtils.isLogined(httpServletRequest)) {
+                    httpServletResponse.sendRedirect("/login");
                     return;
                 }
             }
