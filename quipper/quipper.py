@@ -100,7 +100,7 @@ class Quipper(object):
 
     def add(self, command_name, *args):
         if '"controlled"' in args:
-            args = filter(lambda x: x != '"controlled"', args)
+            args = filter(lambda x: "controlled" not in x, args)
         function = self.defs.get(command_name)
         if function:
             if len(function.labels) != len(args):
