@@ -1,6 +1,8 @@
 import ru.kpfu.quantum.service.integration.IntegrationService;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 
 /**
  * @author sala
@@ -30,7 +32,8 @@ public class TestIntegrationService {
             fos.flush();
         }
         //
-        final byte[] bytes2 = integrationService.circuitToFile(circuit);
+        final String singleCircuit = circuit.substring(1, circuit.length() - 2);
+        final byte[] bytes2 = integrationService.circuitToFile(singleCircuit);
         try(FileOutputStream fos = new FileOutputStream("temp2.png", false); BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(bytes2))) {
             int read;
             while ((read = bis.read()) != -1) {

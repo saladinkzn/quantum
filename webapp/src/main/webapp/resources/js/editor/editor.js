@@ -84,7 +84,7 @@ function Editor( editor ){
     editor.height = editor.clientHeight;
 
     p.fillStyle = '#FFFFFF';
-    p.strokeStyle = '#0101010F';
+    p.strokeStyle = '#000000';
     for( var i=0; i<func.qBitsCount; ++i ){
       p.line(10, i*spaceY+spaceY, editor.width-20, i*spaceY+spaceY );
       }
@@ -93,9 +93,14 @@ function Editor( editor ){
 
     for( var i=0; i<func.qBitsCount; ++i ){
       p.globalAlpha = 1;
-      drawQBitButton(p, i, "Q"+(i+1));
+
+      if( func.selectedQBit===i )
+        p.strokeStyle = '#0000FF'; else
+        p.strokeStyle = '#000000';
+      drawQBitButton(p, i, func.qBitNames[i]);//"Q"+(i+1));
       }
 
+    p.strokeStyle = '#000000';
     eachEditCride( function( q, i, r ){
       if( (mOver.x-r <=2 && r-mOver.x<=1)|| r===func.editColumn || func.gates[r]!=="" ){
         if( r===mOver.x || r+1===mOver.x || r===func.editColumn || func.gates[r]!=="" )
@@ -185,6 +190,15 @@ function Editor( editor ){
       //gates.modGate( func.name, func.qBitsCount );
       }
 
+    for( var i=0; i<func.qBitsCount; ++i ){
+      var r = drawQBitButtonRect(i);
+      if( r.x < mx && mx < r.x+r.w &&
+          r.y < my && my < r.y+r.h ){
+        func.selectedQBit = i;
+        editor.argName.value = func.qBitNames[i];
+        }
+      }
+
     eachEditCride( function( q, i, r ){
       if( mOver.x-r <=2 && r-mOver.x<=1 &&
           ( func.editColumn===r || func.editColumn==-1 ) ){
@@ -204,7 +218,7 @@ function Editor( editor ){
               if( func.columns[r][i].selected &&
                   func.columns[r][i].argId>q.argId  ){
                 func.columns[r][i].argId--;
-                func.columns[r][i].name = "q"+(func.columns[r][i].argId+1);
+                func.columns[r][i].name = "Q"+(func.columns[r][i].argId+1);
                 }
               }
             q.argId = -1;
@@ -215,7 +229,7 @@ function Editor( editor ){
             func.eArgsCount--;
 
           if( q.selected )
-            q.name = "q"+(q.argId+1); else
+            q.name = "Q"+(q.argId+1); else
             q.name = "";
 
           if( func.eArgsCount>0 )
@@ -328,6 +342,7 @@ function Editor( editor ){
         gates.addGate( functionsNames[i], functions[functionsNames[0]].qBitsCount );
       }
     }
+  editor.setProject = setProject;
 
   function getProjectAsJson(){
     var ret = new Array(functionsNames.length);
@@ -340,6 +355,7 @@ function Editor( editor ){
     var s = JSON.stringify(ret);
     return s;
     }
+  editor.getProjectAsJson = getProjectAsJson;
 
   function testJSON(){
     var p = getProjectAsJson();
@@ -354,7 +370,37 @@ function Editor( editor ){
   editor.onmousemove = mouseMove;
   editor.onmouseup   = mouseUp;
 
-  //editor.onclick     = testJSON;
+  editor.test     = testJSON;
+
+  editor.argName  = document.getElementById("argName");
+  editor.argName.value = "Q_n";
+
+  function setQBitName( fn, id, name ){
+    for( var i=0; i<functionsNames.length; ++i ){
+      functions[ functionsNames[i] ].setQBitName( fn, id, name );
+      }
+    }
+
+  editor.updateQbitName = function(){
+    var s = editor.argName.value;
+    for( var i=0; i<s.length; ++i )
+      if( !( ('0'<=s[i] && s[i]<='9')||
+             ('a'<=s[i] && s[i]<='z')||
+             ('A'<=s[i] && s[i]<='Z')||
+             ( s[i]==='_') ) )
+        return;
+
+    if( s.length<1 )
+      return;
+
+    if( func.selectedQBit!==-1 ){
+      setQBitName( func, func.selectedQBit, s );
+      }
+
+    window.requestAnimFrame(paintEvent);
+    }
+
+  editor.argName.oninput = editor.updateQbitName;
 
   editor.addFunction = function( f ){
     if( func.editColumn===-1 )
@@ -364,8 +410,20 @@ function Editor( editor ){
       return;
 
     func.gates[ func.editColumn ] = f.name;
-    func.editColumn = -1;
     func.eArgsCount =  0;
+
+    for( var i=0; i<functionsNames.length; ++i ){
+      if( functionsNames[i]===f.name ){
+        var fn = functions[f.name];
+        var c = func.columns[func.editColumn];
+        for( var r=0; r<func.qBitsCount; ++r ){
+          if( c[r].argId!==-1)
+            c[r].name = fn.qBitNames[c[r].argId];
+          }
+        }
+      }
+
+    func.editColumn = -1;
     window.requestAnimFrame(paintEvent);
     }
 

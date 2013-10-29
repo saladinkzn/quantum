@@ -1,6 +1,8 @@
 function makeFuncBase(){
   var f = {};
 
+  f.selectedQBit  = -1;
+
   f.makeElem = function(){
     var e = {};
     e.name     = "";
@@ -47,6 +49,11 @@ function makeFuncBase(){
       while( f.columns[i].length<f.qBitsCount )
         f.columns[i][f.columns[i].length] = f.makeElem();
       }
+
+    while( f.qBitNames.length < count )
+      f.qBitNames[ f.qBitNames.length ] = ( "Q"+ (f.qBitNames.length+1) );
+
+    f.qBitNames.length = count;
     }
 
   f.insertColumn = function( pos ){
@@ -59,6 +66,20 @@ function makeFuncBase(){
     f.columns.splice( pos, 1 );
     }
 
+  f.setQBitName = function( fn, id, name ){
+    if( f===fn )
+      f.qBitNames[id] = name;
+
+    for( var i=0; i<f.columns.length; ++i ){
+      if( f.gates[i]===fn.name ){
+        var c = f.columns[i];
+        for( var r=0; r<c.length; ++r )
+          if( c[r].argId==id )
+            c[r].name = name;
+        }
+      }
+    }
+
   f.toJSON = function(){
     var fn = {};
 
@@ -66,12 +87,15 @@ function makeFuncBase(){
 
     fn.labels = new Array(f.qBitsCount);
     for( var i=0; i<fn.labels.length; ++i )
-      fn.labels[i] = "q"+(i+1);
+      fn.labels[i] = f.qBitNames[i];//"Q"+(i+1);
 
     var id = 0;
     fn.circuit = [];
+
+    var spaceEnable = true;
+
     for( var i=0; i<f.columns.length; ++i ){
-      if( f.gates[i]!=="" ){
+      if( f.gates[i]!=="" || spaceEnable ){
         var elt = [];
         elt[0] = f.gates[i];
 
@@ -96,9 +120,13 @@ function makeFuncFromJSON( obj ){
   f.columns    = new Array( obj.circuit.length );
   f.name       = "main";
   f.qBitsCount = obj.labels.length;
+  f.qBitNames  = new Array( f.qBitsCount );
 
-  f.editColumn   = -1;
-  f.eArgsCount   =  0;
+  f.editColumn    = -1;
+  f.eArgsCount    =  0;
+
+  for( var i=0; i<obj.labels.length; ++i )
+    f.qBitNames[i] = obj.labels[i];
 
   for( var i=0; i<obj.circuit.length; ++i ){
     var gt = [];
@@ -108,14 +136,16 @@ function makeFuncFromJSON( obj ){
       gt[r] = e;
       }
 
-    gt[r].name = obj.circuit[i][0];
+    f.gates[i] = obj.circuit[i][0];
 
     for( var r=1; r<obj.circuit[i].length; ++r ){
-      gt[r-1].argId = obj.circuit[i][r];
-      gt[r-1].name = "q"+(gt[r-1].argId+1);
+      var id = obj.circuit[i][r];
+      gt[ id ].argId = r-1;//obj.circuit[i][r];
+      gt[ id ].name  = "Q"+(gt[id].argId+1);
+      gt[ id ].selected = true;
       }
 
-    f.columns = gt;
+    f.columns[i] = gt;
     }
 
   return f;
@@ -130,6 +160,7 @@ function makeFunc( argN ){
   f.columns    = new Array(0);
   f.name       = "main";
   f.qBitsCount = 0;
+  f.qBitNames  = new Array(0);
 
   f.editColumn   = -1;
   f.eArgsCount   =  0;

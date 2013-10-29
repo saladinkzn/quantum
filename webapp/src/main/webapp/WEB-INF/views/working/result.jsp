@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     <div class="result">
-        <a download class="btn btn-primary" href="/resources/images/test.jpg">Скачать</a>
-        <img class="result" src="/resources/images/test.jpg"/>
+        <a download class="btn btn-primary" href="/media/${imageName}">Скачать</a>
+        <img class="result" src="/media/${imageName}"/>
     </div>
 

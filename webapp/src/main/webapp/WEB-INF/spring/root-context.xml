@@ -5,11 +5,10 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
     <import resource="data-context.xml"/>
     <import resource="mail-context.xml"/>
+    <import resource="integration-context.xml"/>
 
     <bean class="ru.kpfu.quantum.service.registration.CodeGenerator">
         <constructor-arg index="0" value="this.is.very.secure"/>
         <constructor-arg index="1" value="this.is.very.secure.too"/>
     </bean>
-
-
 </beans>

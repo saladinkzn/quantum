@@ -6,12 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.kpfu.quantum.service.integration.IntegrationService;
 import ru.kpfu.quantum.spring.entities.Project;
 import ru.kpfu.quantum.spring.entities.ProjectGroup;
 import ru.kpfu.quantum.spring.repository.ProjectGroupRepository;
 import ru.kpfu.quantum.spring.repository.ProjectRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -24,6 +28,9 @@ public class WorkingController {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private IntegrationService integrationService;
 
 
     enum Filters {All, Working, Archive}
@@ -116,12 +123,23 @@ public class WorkingController {
     @RequestMapping(value = "/working/calculate", method = RequestMethod.POST)
     public String calculate(HttpServletRequest request,
                             @RequestParam Long projectId,
-                            @RequestParam String code){
+                            @RequestParam String code) throws IOException {
         Project project = projectRepository.findOne(projectId);
         project.setCode(code);
         project.setCalculated(true);
         //TODO в дальнейшем сделать обработку кода.
-        projectRepository.save(project);
+        final Project saved = projectRepository.save(project);
+        //
+        final byte[] imageBytes = integrationService.codeToFile(code);
+        final String imageName = saved.getId() + ".png";
+        final String imagePath = System.getProperty("jboss.server.data.dir") + "/quantum/media/" + imageName;
+        File file = new File(imagePath);
+        try(FileOutputStream fileOutputStream = new FileOutputStream(file, false)) {
+            fileOutputStream.write(imageBytes);
+            fileOutputStream.flush();
+        }
+        //
+        request.setAttribute("imageName", imageName);
         return "working/result";
     }
 
