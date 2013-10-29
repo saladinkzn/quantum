@@ -11,12 +11,7 @@
     <jsp:attribute name="title">
     Архив
     </jsp:attribute>
-    <jsp:attribute name="customHead">
-    <link rel="stylesheet" href="/resources/css/jquery.treeview.css">
-    <link rel="stylesheet" href="/resources/css/archive.css">
-    <script src="/resources/js/archive.js" type="text/javascript"></script>
-    <script src="/resources/js/jquery.treeview.js" type="text/javascript"></script>
-    </jsp:attribute>
+    <jsp:attribute name="customHead"></jsp:attribute>
     <jsp:attribute name="body">
         <dl>
             <dt>Выдача ключа (приглашение) администратором</dt>
