@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.kpfu.quantum.spring.entities.ProjectGroup;
+import ru.kpfu.quantum.spring.entities.User;
 
 import java.util.List;
 
@@ -23,6 +24,10 @@ public interface ProjectGroupRepository extends CrudRepository<ProjectGroup, Lon
 
     @Query("select distinct pg from ProjectGroup pg left join fetch pg.projects p where pg.id = ?1")
     public ProjectGroup findOneFetchChildren(Long groupId);
+
+    @Query("select distinct pg from ProjectGroup pg where pg.creator = ?1")
+    public List<ProjectGroup> findAllGroupsOwnByUser(User creator);
+
 
 
 

@@ -40,7 +40,7 @@
 	    <profile>
             <id>nikita-dev</id>
             <properties>
-                <jbossHome>C:\Program Files\jboss-as-7.1.1.Final\standalone</jbossHome>
+                <jbossHome>C:\Programs\jboss-as-7.1.1.Final\standalone</jbossHome>
             </properties>
         </profile>
 		<profile>

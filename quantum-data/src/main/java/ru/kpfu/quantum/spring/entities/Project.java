@@ -7,7 +7,6 @@ import java.util.Date;
  * @author sala
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "creator_id"}))
 public class Project {
     /**
      * Идентификатор проекта
@@ -58,34 +57,9 @@ public class Project {
     @Column(nullable = true, length = 8000)
     private String description;
 
-    @ManyToOne()
-    @JoinColumn(name = "creator_id")
-    private User creator;
-
     protected Project() {
     }
 
-    /*
-     * Создает проект
-     *
-     * @param name Название проекта
-     * @param creator Создатель проекта
-     * @param code Код проекта
-
-    public Project(String name, User creator, String code) {
-        if(name == null) throw new IllegalArgumentException("name cannot be null");
-        if(created == null) throw new IllegalArgumentException("creator cannot be null");
-        if(code == null) throw new IllegalArgumentException("code cannot be null");
-        this.code = code;
-        this.name = name;
-        this.created = new Date();
-        this.lastModified = new Date();
-        this.archive = false;
-        this.calculated = false;
-        this.creator = creator;
-    }          */
-
-    //TODO Удалить этот конструктор и изменить экшен создания проекта, когда будет реализован пользователь
     /**
      * Создает проект
      *

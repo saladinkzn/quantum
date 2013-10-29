@@ -22,7 +22,7 @@
                             Groups <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><input type="text" placeholder="Новый проект"/></li>
+                            <li><input type="text" placeholder="Новая группа"/></li>
                             <li class="divider"></li>
                             <div class="data-list">
                                 <c:forEach var="record" items="${groups}">
@@ -63,9 +63,6 @@
             </ul>
             <ul class="pull-right list-inline">
                 <li>
-                    <button class="btn btn-primary">Настройка режима отображения</button>
-                </li>
-                <li>
                     <button id="save-button" disabled class="btn btn-primary">Сохранить</button>
                 </li>
                 <li>
@@ -74,11 +71,12 @@
                 <li>
                     <button id="archive-button" disabled class="btn btn-primary">В архив</button>
                 </li>
+
             </ul>
         </div>
         <div id="project-area" class="my container">
             <button id="view-button" class="btn btn-primary pull-right"></button>
-            <textarea class="form-control code-area" disabled></textarea>
+            <textarea  spellcheck="false" class="form-control code-area" disabled></textarea>
             <div class="my container off">
                 <div id="form" style="width:1100px; height:600px">
                     <script type="text/javascript" src="/resources/js/editor/painter.js"></script>

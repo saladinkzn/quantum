@@ -10,6 +10,7 @@ $(document).ready(function() {
     //Снимаем обработчик события на нажатия клавиши, который повесили ниже
     $('.dropdown-menu').on('focusout', 'input', function(){
         $(this).val("");
+        $(this).unbind();
     });
 
     //Вешаем обработчик события нажатия клавиши enter на поля ввода в ниспадающих меню
@@ -93,7 +94,7 @@ $(document).ready(function() {
                          $('#archive-button').attr('disabled', 'disabled');
                          $(currentInput).val("");
                          $('#working-area').find('textarea.code-area').val("");
-                         $('#project-area').find('div.result').remove();
+                         $('#project-area').find('div.result').empty();
                      });
              }
          });
@@ -114,7 +115,9 @@ $(document).ready(function() {
              else {
                  $('#archive-button').attr('disabled', 'disabled');
              }
-
+             $.get('/working/get-circuit', {code: $('#project-area').find('textarea.code-area').val()}, function(circuit){
+                 editor.setProject(circuit);
+             });
          });
          e.preventDefault();
      })
@@ -137,26 +140,69 @@ $(document).ready(function() {
 
     //Сохраняем проект
     $('#save-button').click(function(){
+        var project;
+        var typeOfEditor;
+        if($('#project-area').find('div.my').hasClass('off')){
+            project = $('#project-area').find('textarea.code-area').val();
+            typeOfEditor = "text";
+        }
+        else {
+            project = editor.getProjectAsJson();
+            typeOfEditor = "visual";
+        }
         $.post('/working/save',
             {
                 projectId: $('#project-list').find('button').attr('projectId'),
-                code: $('#working-area').find('textarea.code-area').val()
+                code: project,
+                typeOfEditor: typeOfEditor
             },
             function(){
                 $('#working-area').find('div.result').addClass('off');
+                $('#archive-button').attr('disabled', 'disabled');
+                if($('#project-area').find('div.my').hasClass('off')){
+                    $.get('/working/get-circuit', {code: $('#project-area').find('textarea.code-area').val()}, function(circuit){
+                        editor.setProject(circuit);
+                    });
+                }
+                else {
+                    $.get('/working/get-code', {projectId: $('#project-list').find('button').attr('projectId')}, function(code){
+                        $('#project-area').find('textarea.code-area').val(code);
+                    });
+                }
             });
     });
 
     //Рассчитываем проект
     $('#calculate-button').click(function(){
+        var project;
+        var typeOfEditor;
+        if($('#project-area').find('div.my').hasClass('off')){
+            project = $('#project-area').find('textarea.code-area').val();
+            typeOfEditor = "text";
+        }
+        else {
+            project = editor.getProjectAsJson();
+            typeOfEditor = "visual";
+        }
         $.post('/working/calculate',
             {
                 projectId: $('#project-list').find('button').attr('projectId'),
-                code: $('#working-area').find('textarea.code-area').val()
+                code: project,
+                typeOfEditor: typeOfEditor
             },
             function(data){
                 $('#working-area').find('div.result').replaceWith($(data));
-
+                $('#archive-button').removeAttr('disabled');
+                if($('#project-area').find('div.my').hasClass('off')){
+                    $.get('/working/get-circuit', {code: $('#project-area').find('textarea.code-area').val()}, function(circuit){
+                        editor.setProject(circuit);
+                    });
+                }
+                else {
+                    $.get('/working/get-code', {projectId: $('#project-list').find('button').attr('projectId')}, function(code){
+                        $('#project-area').find('textarea.code-area').val(code);
+                    });
+                }
             });
     });
 
