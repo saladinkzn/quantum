@@ -5,50 +5,6 @@
 
 <common:mainTemplate activePage="working">
 
-<<<<<<< HEAD
-<html>
-
-<head>
-    <title>New Page</title>
-    <meta name="viewport" content="width=device-width">
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/resources/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-    <link rel="stylesheet" href="/resources/css/working.css">
-    <script src="/resources/js/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="/resources/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="/resources/js/working.js" type="text/javascript"></script>
-</head>
-
-<body>
-<div class="container">
-    <ul class="nav pull-right nav-pills">
-        <li class="active">
-            <a href="#">Разработка</a>
-        </li>
-        <li>
-            <a href="archive">Архив</a>
-        </li>
-        <li>
-            <a href="#">Справка</a>
-        </li>
-    </ul>
-</div>
-<div id='working-area' class="container working-area">
-    <div class="my container">
-    <ul class="pull-left list-inline">
-        <li id="group-list">
-            <div class="btn-group">
-                <button groupId="" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Groups <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><input type="text" placeholder="Новый проект"/></li>
-                    <li class="divider"></li>
-                    <div class="data-list">
-                        <c:forEach var="record" items="${groups}">
-                            <li><a recordId="${record.id}" href="#">${record.name}</a></li>
-                        </c:forEach>
-=======
     <jsp:attribute name="title">
         Разработка
     </jsp:attribute>
@@ -74,7 +30,6 @@
                                 </c:forEach>
                             </div>
                         </ul>
->>>>>>> master
                     </div>
                 </li>
                 <li id="project-list">

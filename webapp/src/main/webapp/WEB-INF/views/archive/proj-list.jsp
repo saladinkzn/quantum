@@ -6,7 +6,7 @@
 <div class="proj-list">
 <c:forEach var="record" items="${records}">
     <li>
-          <span>
+          <span recordId="${record.id}" class="proj_item">
                   ${record.name}
           </span>
     </li>

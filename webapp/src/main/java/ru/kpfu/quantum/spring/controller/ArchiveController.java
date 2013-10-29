@@ -37,10 +37,17 @@ public class ArchiveController {
     public String getProjectDataList(HttpServletRequest request,
                                      @RequestParam Long groupId) {
 
-        List<Project> projects;
-        projects = projectRepository.findAllByArchive(groupId, true);
+        List<Project> projects = projectRepository.findAllByArchive(groupId, true);
         request.setAttribute("records", projects);
         return "archive/proj-list";
+    }
+
+    @RequestMapping("/archive/get-project")
+    public String getProj(HttpServletRequest request,
+                          @RequestParam Long projectId){
+        Project project = projectRepository.findOne(projectId);
+        request.setAttribute("project", project);
+        return "archive/project";
     }
 
 }

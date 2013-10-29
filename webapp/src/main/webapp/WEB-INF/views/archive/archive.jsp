@@ -25,14 +25,14 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#my_group_list").treeview();
+        $(".my_group_list").treeview();
     });
 </script>
 
 <div class="container">
     <ul class="nav pull-right nav-pills">
         <li>
-            <a href="working">Разработка</a>
+            <a href="#">Разработка</a>
         </li>
         <li  class="active">
             <a href="#">Архив</a>
@@ -44,14 +44,15 @@
 </div>
 <div id='archive-area' class="container archive-area">
     <div class="my container">
-            <ul id="my_group_list">
+            <ul class="my_group_list">
                 <c:forEach var="record" items="${groups}">
                     <li class="closed" >
-                        <span>
+                        <span recordId="${record.id}" class="group_item">
                             ${record.name}
                         </span>
-                        <ul id="my_arch_proj_list">
+                        <ul class="my_arch_proj_list">
                             <div class="proj-list">
+
                             </div>
                         </ul>
                     </li>
