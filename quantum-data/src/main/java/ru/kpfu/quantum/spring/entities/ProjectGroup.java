@@ -48,4 +48,5 @@ public class ProjectGroup {
     public List<Project> getProjects() {
         return projects;
     }
+
 }
