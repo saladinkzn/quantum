@@ -26,6 +26,8 @@
 
             <div class="well"><p>${project.description}</p></div>
 
+            <p><a download class="btn btn-primary btn-lg" href="/media/${project.id}.png">Скачать</a></p>
+
         </div>
     </div>
 
