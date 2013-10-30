@@ -75,7 +75,9 @@
             </ul>
         </div>
         <div id="project-area" class="my container">
-            <button id="view-button" class="btn btn-primary pull-right"></button>
+            <button id="view-button" class="btn btn-primary pull-right">
+                <img class="icon" src="/resources/images/gtk-refresh.png"/>
+            </button>
             <textarea  spellcheck="false" class="form-control code-area" disabled></textarea>
             <div class="my container off">
                 <div id="form" style="width:1100px; height:600px">

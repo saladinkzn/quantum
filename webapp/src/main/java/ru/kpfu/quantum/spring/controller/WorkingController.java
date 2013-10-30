@@ -48,7 +48,8 @@ public class WorkingController {
 
     @RequestMapping("/")
     public String working(HttpServletRequest request) {
-        List<ProjectGroup> groups = projectGroupRepository.findAllGroups();
+        User currentUser = UserUtils.getUserFromSession(request);
+        List<ProjectGroup> groups = projectGroupRepository.findAllGroupsOwnByUser(currentUser);
         request.setAttribute("groups", groups);
         request.setAttribute("filters", Filters.values());
         return "working/working";

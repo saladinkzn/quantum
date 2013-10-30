@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div id="project-area" class="my container">
-    <button id="view-button" class="btn btn-primary pull-right"></button>
+    <button id="view-button" class="btn btn-primary pull-right">
+        <img class="icon" src="/resources/images/gtk-refresh.png"/>
+    </button>
     <textarea  spellcheck="false" calculated="${project.calculated}" class="form-control code-area">${project.code}</textarea>
     <div class="my container off">
 
