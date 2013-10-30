@@ -21,11 +21,18 @@ public class ProjectGroup {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Project> projects;
 
+    @ManyToOne()
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
     protected ProjectGroup() {
     }
 
-    public ProjectGroup(String name) {
+    public ProjectGroup(String name, User creator) {
+        if(name == null) throw new IllegalArgumentException("name cannot be null");
+        if(creator == null) throw new IllegalArgumentException("creator cannot be null");
         this.name = name;
+        this.creator = creator;
     }
 
     /**
