@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import java.io.*;
 import java.net.*;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author sala
@@ -32,10 +33,9 @@ public class IntegrationService {
     }
 
     public String codeToCircuit(String source) throws IOException {
-        final String sourcesJson = gson.toJson(Arrays.asList(source));
         final StringBuilder fileStringBuilder = new StringBuilder("/str_to_circuit?");
         try {
-            fileStringBuilder.append("source_codes=").append(URLEncoder.encode(sourcesJson, "UTF-8"));
+            fileStringBuilder.append("source_codes=").append(URLEncoder.encode(source, "UTF-8"));
             final URL url = new URL("http", host, port,  fileStringBuilder.toString());
             URLConnection urlConnection = url.openConnection();
             StringBuilder result = new StringBuilder();

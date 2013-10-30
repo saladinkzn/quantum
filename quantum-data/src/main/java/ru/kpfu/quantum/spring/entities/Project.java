@@ -2,6 +2,7 @@ package ru.kpfu.quantum.spring.entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author sala
@@ -20,12 +21,6 @@ public class Project {
      */
     @Column(name = "name", nullable = false)
     private String name;
-
-    /**
-     * Код программы
-     */
-    @Column(nullable = false, length = 8000)
-    private String code;
 
     /**
      * Дата создания проекта
@@ -57,6 +52,12 @@ public class Project {
     @Column(nullable = true, length = 8000)
     private String description;
 
+    /**
+     * Список функций проекта
+     */
+    @OneToMany(mappedBy = "project", orphanRemoval = true)
+    private List<Function> functions;
+
     protected Project() {
     }
 
@@ -64,13 +65,13 @@ public class Project {
      * Создает проект
      *
      * @param name Название проекта
-     * @param code Код проекта
+     * @param functions Список функций
      */
-    public Project(String name, String code) {
+    public Project(String name, List<Function> functions) {
         if(name == null) throw new IllegalArgumentException("name cannot be null");
-        if(code == null) throw new IllegalArgumentException("code cannot be null");
-        this.code = code;
+        if(functions == null) throw new IllegalArgumentException("functions cannot be null");
         this.name = name;
+        this.functions = functions;
         this.created = new Date();
         this.lastModified = new Date();
         this.archive = false;
@@ -89,13 +90,6 @@ public class Project {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * @return Код проекта
-     */
-    public String getCode() {
-        return code;
     }
 
     /**
@@ -133,10 +127,6 @@ public class Project {
         return description;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public void setArchive(boolean archive) {
         this.archive = archive;
     }
@@ -151,5 +141,9 @@ public class Project {
 
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public List<Function> getFunctions() {
+        return functions;
     }
 }

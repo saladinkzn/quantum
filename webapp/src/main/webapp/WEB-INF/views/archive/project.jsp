@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="project" type="java.util.List<ru.kpfu.quantum.spring.entities.Project>"--%>
+<%--@elvariable id="project" type="ru.kpfu.quantum.spring.entities.Project"--%>
 
 
 <div id="project-area" class="project container">
@@ -13,11 +13,13 @@
         <div class="panel-body">
             <p>Дата создания: ${project.created}</p>
             <p>Дата последнего изменения: ${project.lastModified}</p>
+            <c:forEach var="function" items="${project.functions}">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    ${project.code}
+                    ${function.code}
                 </div>
             </div>
+            </c:forEach>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <img src="/media/${project.id}.png"/>

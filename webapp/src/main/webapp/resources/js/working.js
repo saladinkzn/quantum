@@ -1,6 +1,12 @@
 (function($, undefined) {
 $(document).ready(function() {
-
+    function getCode() {
+        var functions = [];
+        $('.js-function').each(function() {
+            functions.push($(this).val());
+        });
+        return JSON.stringify(functions);
+    }
 
     // Клик по полю ввода в ниспадающих меню групп и проектов не приведёт к закрытию списка
      $('.dropdown-menu').on('click', 'input', function ( e ) {
@@ -93,7 +99,7 @@ $(document).ready(function() {
                          $('#save-button').removeAttr('disabled');
                          $('#archive-button').attr('disabled', 'disabled');
                          $(currentInput).val("");
-                         $('#working-area').find('textarea.code-area').val("");
+                         $('#functions-container').empty();
                          $('#project-area').find('div.result').empty();
                      });
              }
@@ -115,9 +121,11 @@ $(document).ready(function() {
              else {
                  $('#archive-button').attr('disabled', 'disabled');
              }
-             $.get('/working/get-circuit', {code: $('#project-area').find('textarea.code-area').val()}, function(circuit){
-                 editor.setProject(circuit);
-             });
+             if(getCode() != '[]') {
+                 $.get('/working/get-circuit', {code: getCode()}, function(circuit){
+                     editor.setProject(circuit);
+                 });
+             }
          });
          e.preventDefault();
      })
@@ -143,10 +151,9 @@ $(document).ready(function() {
         var project;
         var typeOfEditor;
         if($('#project-area').find('div.my').hasClass('off')){
-            project = $('#project-area').find('textarea.code-area').val();
+            project = getCode();
             typeOfEditor = "text";
-        }
-        else {
+        } else {
             project = editor.getProjectAsJson();
             typeOfEditor = "visual";
         }
@@ -160,13 +167,16 @@ $(document).ready(function() {
                 $('#working-area').find('div.result').addClass('off');
                 $('#archive-button').attr('disabled', 'disabled');
                 if($('#project-area').find('div.my').hasClass('off')){
-                    $.get('/working/get-circuit', {code: $('#project-area').find('textarea.code-area').val()}, function(circuit){
+                    $.get('/working/get-circuit', {code: getCode()}, function(circuit){
                         editor.setProject(circuit);
                     });
                 }
                 else {
                     $.get('/working/get-code', {projectId: $('#project-list').find('button').attr('projectId')}, function(code){
-                        $('#project-area').find('textarea.code-area').val(code);
+                        $('#functions-container').empty();
+                        for(var i = 0; i < code.length; i++) {
+                            addFunction().val(code[i]);
+                        }
                     });
                 }
             });
@@ -177,7 +187,7 @@ $(document).ready(function() {
         var project;
         var typeOfEditor;
         if($('#project-area').find('div.my').hasClass('off')){
-            project = $('#project-area').find('textarea.code-area').val();
+            project = getCode();
             typeOfEditor = "text";
         }
         else {
@@ -194,14 +204,17 @@ $(document).ready(function() {
                 $('#working-area').find('div.result').replaceWith($(data));
                 $('#archive-button').removeAttr('disabled');
                 if($('#project-area').find('div.my').hasClass('off')){
-                    $.get('/working/get-circuit', {code: $('#project-area').find('textarea.code-area').val()}, function(circuit){
+                    $.get('/working/get-circuit', {code: getCode() }, function(circuit){
                         editor.setProject(circuit);
                     });
                 }
                 else {
                     $.get('/working/get-code', {projectId: $('#project-list').find('button').attr('projectId')}, function(code){
-                        $('#project-area').find('textarea.code-area').val(code);
-                    });
+                        $('#functions-container').empty();
+                        for(var i = 0; i < code.length; i++) {
+                            addFunction().val(code[i]);
+                        }
+                    }, 'json');
                 }
             });
     });
@@ -217,10 +230,20 @@ $(document).ready(function() {
     });
 
     //Переключение типа редактора
-    $('#working-area').on('click', 'button#view-button', function(){
-        $('#project-area').find('textarea.code-area').toggleClass('off');
-        $('#project-area').find('div.my').toggleClass('off');
-    });
+    $('#working-area')
+        .on('click', 'button#view-button', function(){
+            $('#project-area').find('textarea.code-area').toggleClass('off');
+            $('#project-area').find('div.my').toggleClass('off');
+        })
+        .on('click', '#add-function', function() {
 
-});
+            addFunction();
+        });
+    });
+    function addFunction() {
+        //spellcheck="false" class="form-control code-area js-function"
+        var $textarea = $('<textarea/>').addClass('js-function').addClass('code-area').addClass('form-control').attr('spellcheck', false);
+        $('#functions-container').append($textarea);
+        return $textarea;
+    }
 })(jQuery);
