@@ -14,12 +14,18 @@ img.result {
     max-width: 200pt;
     max-height: 200pt;
 }
-.off {
-    display: none;
-}
 
 div.my.container {
     padding-left: 0pt;
     padding-right: 0pt;
     display: block;
+}
+
+.off {
+    display: none !important;
+}
+
+.icon{
+    height: 12pt;
+    idth: 12pt;
 }

@@ -1,0 +1,1 @@
+@start quipper/Scripts/python server.py
