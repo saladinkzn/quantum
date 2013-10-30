@@ -27,7 +27,7 @@ def title(alphabet):
     res += alphabet['name']+' ('
     for label in alphabet['labels']:
         res += label+' '
-    res += ') = do \n'
+    res += ') =do \n'
     return res
 
 def function(operator, labels):

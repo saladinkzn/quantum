@@ -3,8 +3,7 @@ import re
 def is_a_function(line):
     result = {}
     res = re.match(
-    r'(^[a-zA-Z][0-9a-zA-Z]*)([ ]*)'
-    r'([a-zA-Z][0-9a-zA-Z]*)([ ]*=do[ ]*$)'
+    r'(^[a-zA-Z][0-9a-zA-Z]*)([ ]*)([(a-zA-Z][0-9a-zA-Z) ]*)(=do[ ]*$)'
     ,line)
     if res:
         res= res.groups()

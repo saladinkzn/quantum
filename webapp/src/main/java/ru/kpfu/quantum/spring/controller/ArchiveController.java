@@ -46,6 +46,7 @@ public class ArchiveController {
     public String getProj(HttpServletRequest request,
                           @RequestParam Long projectId){
         Project project = projectRepository.findOne(projectId);
+        project.setCode(project.getCode().replace("\n", "<br/>"));
         request.setAttribute("project", project);
         return "archive/project";
     }
