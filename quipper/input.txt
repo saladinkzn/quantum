@@ -1,0 +1,5 @@
+a :: bool -> bool
+a x =do
+    asd <- hadamard b 
+    asd <- qnot a "controlled"  c
+    asd <- hadamard a

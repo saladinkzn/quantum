@@ -1,0 +1,35 @@
+У проекта есть следующие зависимости:
+bottle, numpy, scipy, matplotlib.
+
+Возможно потребуются следующие зависимости (linux):
+blas-devel, lapack-devel, libpng-devel.
+
+Если на сервере нет иксов, то не беда:
+1. Откройте python
+2. Выполните следующие команды:
+>>> import matplotlib
+>>> matplotlib.matplotlib_fname()
+3. В результате выполнения будет выведен путь к файлу настроек matplotlib для
+текущего виртуального окружения
+4. Замените backend 'tkagg' на backend 'Agg', таким образом можно отдавать картинки без иксов.
+
+Рекомендуется создать virtualenv и установить их с помощью:
+./pip install bottle
+./pip install numpy
+./pip install scipy
+./pip install matplotlib
+
+Ещё нужно установить sympy из гита:
+git clone git://github.com/sympy/sympy.git
+и выполните your_virtual_env_python setup.py
+
+your_virtual_env_python - это путь к пайтону, который настроен для текущего виртуального окружения
+
+С последней релизной версией sympy Quipper не завелся. 
+
+host/port настраивается с помощью settings.py:
+
+HOST = 'localhost'
+PORT = 9991
+
+

@@ -24,6 +24,8 @@
 
     <mvc:resources mapping="/media/**" location="file:/${jboss.server.data.dir}/quantum/media/"/>
 
+    <mvc:view-controller path="/help" view-name="help/help"/>
+
     <!-- Resolves view names to protected .jsp resources within the /WEB-INF/views directory -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
