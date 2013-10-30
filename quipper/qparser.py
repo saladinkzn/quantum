@@ -17,32 +17,30 @@ def parse(text):
     return q
 
 def title(alphabet):
-    res = alphabet['name']+' :: ('
-    for label in alphabet['labels']:
-        res += label+' '
-    res += ') -> ('
-    for label in alphabet['labels']:
-        res += label+' '
-    res += ')\n'
-    res += alphabet['name']+' ('
-    for label in alphabet['labels']:
-        res += label+' '
-    res += ') =do \n'
+    name = alphabet['name']
+    args = ' '.join(alphabet['labels'])
+    res = "{0} :: ({1}) -> ({1})\n{0} ({1}) =do \n".format(name, args)
+    # res = alphabet['name']+' :: ('
+    # for label in alphabet['labels']:
+    #     res += label+' '
+    # res += ') -> ('
+    # for label in alphabet['labels']:
+    #     res += label+' '
+    # res += ')\n'
+    # res += alphabet['name']+' ('
+    # for label in alphabet['labels']:
+    #     res += label+' '
+    # res += ') =do \n'
     return res
 
 def function(operator, labels):
-    res = '    '
-    j = len(operator) - 1
-    i = 1
-    while i <= j:
-        res += labels[i] + ' '
-        i += 1
-    res += '<- '
-    res += (gates[operator[0]] if operator[0] in gates else operator[0]) + ' '
-    i = 1
-    while i <= j:
-        res += labels[i] + ' '
-        i += 1
+    args = ' '.join([labels[i] for i in operator[1:]])
+    op = gates[operator[0]] if operator[0] in gates else operator[0]
+    res = '    {0} <- {1} {0}'.format( args, op)
+    # res += ' '.join(args)
+    # res += ' <- '
+    # res += (gates[operator[0]] if operator[0] in gates else operator[0]) + ' '
+    # res += ' '.join(args)
     return res
 
 def body(alphabet):
