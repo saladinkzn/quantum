@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.kpfu.quantum.spring.entities.Function;
 import ru.kpfu.quantum.spring.entities.Project;
 import ru.kpfu.quantum.spring.entities.ProjectGroup;
 import ru.kpfu.quantum.spring.repository.ProjectGroupRepository;
@@ -45,8 +46,10 @@ public class ArchiveController {
     @RequestMapping("/archive/get-project")
     public String getProj(HttpServletRequest request,
                           @RequestParam Long projectId){
-        Project project = projectRepository.findOne(projectId);
-        project.setCode(project.getCode().replace("\n", "<br/>"));
+        Project project = projectRepository.findOneFetchFunctions(projectId);
+        for(Function function : project.getFunctions()) {
+            function.setCode(function.getCode().replace("\n", "<br/>"));
+        }
         request.setAttribute("project", project);
         return "archive/project";
     }

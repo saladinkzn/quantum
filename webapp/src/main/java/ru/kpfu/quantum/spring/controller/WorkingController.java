@@ -1,6 +1,10 @@
 package ru.kpfu.quantum.spring.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,19 +12,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.kpfu.quantum.service.integration.IntegrationService;
+import ru.kpfu.quantum.spring.entities.Function;
 import ru.kpfu.quantum.spring.entities.Project;
 import ru.kpfu.quantum.spring.entities.ProjectGroup;
 import ru.kpfu.quantum.spring.entities.User;
+import ru.kpfu.quantum.spring.repository.FunctionRepository;
 import ru.kpfu.quantum.spring.repository.ProjectGroupRepository;
 import ru.kpfu.quantum.spring.repository.ProjectRepository;
 import ru.kpfu.quantum.spring.repository.UserRepository;
 import ru.kpfu.quantum.spring.utils.UserUtils;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 @Controller
@@ -36,12 +45,16 @@ public class WorkingController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private FunctionRepository functionRepository;
+
 
     @Autowired
     private IntegrationService integrationService;
 
     Gson gson = new Gson();
 
+    private Random random = new Random();
 
 
     enum Filters {All, Working, Archive}
@@ -97,7 +110,7 @@ public class WorkingController {
     @RequestMapping(value = "/working/create-project", method = RequestMethod.POST)
     public String createProject(@RequestParam Long groupId,
                                 @RequestParam String projectName) {
-        Project project = new Project(projectName, "");
+        Project project = new Project(projectName, new ArrayList<Function>());
         Project saved = projectRepository.save(project);
         ProjectGroup group = projectGroupRepository.findOneFetchChildren(groupId);
         group.getProjects().add(saved);
@@ -109,7 +122,7 @@ public class WorkingController {
     @RequestMapping("/working/get-project")
     public String getCode(HttpServletRequest request,
                           @RequestParam Long projectId){
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findOneFetchFunctions(projectId);
         request.setAttribute("project", project);
         final String imageName = project.getId() + ".png";
         request.setAttribute("imageName", imageName);
@@ -119,8 +132,14 @@ public class WorkingController {
     @ResponseBody
     @RequestMapping("/working/get-code")
     public String getCode(@RequestParam Long projectId){
-        Project project = projectRepository.findOne(projectId);
-        return project.getCode();
+//        Project project = projectRepository.findOne(projectId);
+//        return project.getCode();
+        final List<String> codes = new ArrayList<>();
+        Project project = projectRepository.findOneFetchFunctions(projectId);
+        for(Function function : project.getFunctions()) {
+            codes.add(function.getCode());
+        }
+        return gson.toJson(codes, new TypeToken<List<String>>() {}.getType());
     }
 
 
@@ -137,17 +156,25 @@ public class WorkingController {
                           @RequestParam String code,
                           @RequestParam String typeOfEditor) throws IOException
     {
-        Project project = projectRepository.findOne(projectId);
-        if(typeOfEditor.equals("text")){
-            project.setCode(code);
-        }
-        else{
-            List<String> codes = (List<String>)gson.fromJson(integrationService.circuitToCode(code), List.class);
-            String trueCode = codes.get(0);
-            project.setCode(trueCode);
-        }
+        final Project project = projectRepository.findOneFetchFunctions(projectId);
         project.setCalculated(false);
-        projectRepository.save(project);
+        final Project saved = projectRepository.save(project);
+        functionRepository.delete(saved.getFunctions());
+        project.getFunctions().clear();
+        //
+        final List<String> codes;
+        if(!typeOfEditor.equals("text")) {
+            final String codesString = integrationService.circuitToCode(code);
+            codes = gson.fromJson(codesString, new TypeToken<List<String>>() {}.getType());
+        } else {
+            codes = gson.fromJson(code, new TypeToken<List<String>>() {}.getType());
+        }
+        List<Function> functions = new ArrayList<>();
+        for(String codeEntry : codes) {
+            Function function = new Function("", codeEntry, null, saved);
+            functions.add(function);
+        }
+        functionRepository.save(functions);
         return "";
     }
 
@@ -156,32 +183,40 @@ public class WorkingController {
                             @RequestParam Long projectId,
                             @RequestParam String code,
                             @RequestParam String typeOfEditor) throws IOException {
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findOneFetchFunctions(projectId);
         project.setCalculated(true);
-        final byte[] imageBytes;
-        if(typeOfEditor.equals("text")){
-            imageBytes = integrationService.codeToFile(code);
-            project.setCode(code);
+        projectRepository.save(project);
+        functionRepository.delete(project.getFunctions());
+        project.getFunctions().clear();
+        //
+        final List<Function> functions = new ArrayList<>();
+        final List<String> codes;
+        if(!typeOfEditor.equals("text")) {
+            final String codesString = integrationService.circuitToCode(code);
+            codes = gson.fromJson(codesString, new TypeToken<List<String>>() {}.getType());
+        } else {
+            codes = gson.fromJson(code, new TypeToken<List<String>>() {}.getType());
         }
-        else{
-            List<String> codes = (List<String>)gson.fromJson(integrationService.circuitToCode(code), List.class);
-            String trueCode = codes.get(0);
-            project.setCode(trueCode);
-            imageBytes = integrationService.circuitToFile(code.substring(1, code.length() - 1));
-            project.setCode(trueCode);
-            System.out.println("first code = " + code);
-            System.out.println("after = " + code.substring(1, code.length() - 1));
+        for(String codeEntry : codes) {
+            byte[] image = integrationService.codeToFile(codeEntry);
+            final String imageName = saveImage(project, image);
+            Function function = new Function("", codeEntry, imageName, project);
+            functions.add(function);
         }
-        final Project saved = projectRepository.save(project);
-        final String imageName = saved.getId() + ".png";
+        functionRepository.save(functions);
+        request.setAttribute("functions", functions);
+        return "working/result";
+    }
+
+    private String saveImage(Project parent, byte[] image) throws IOException {
+        final String imageName = parent.getId() + random.nextInt(100000) + ".png";
         final String imagePath = System.getProperty("jboss.server.data.dir") + "/quantum/media/" + imageName;
         File file = new File(imagePath);
         try(FileOutputStream fileOutputStream = new FileOutputStream(file, false)) {
-            fileOutputStream.write(imageBytes);
+            fileOutputStream.write(image);
             fileOutputStream.flush();
         }
-        request.setAttribute("imageName", imageName);
-        return "working/result";
+        return imageName;
     }
 
     @ResponseBody

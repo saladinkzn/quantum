@@ -1,63 +1,33 @@
-<%@ page import="ru.kpfu.quantum.spring.entities.Project" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div id="project-area" class="my container">
-    <button id="view-button" class="btn btn-primary pull-right">
-        <img class="icon" src="/resources/images/gtk-refresh.png"/>
-    </button>
-    <textarea  spellcheck="false" calculated="${project.calculated}" class="form-control code-area">${project.code}</textarea>
+<%--@elvariable id="project" type="ru.kpfu.quantum.spring.entities.Project"--%>
+
+<div id="project-area" class="my container" data-calculated="${project.calculated}">
+    <div class="row">
+        <button id="view-button" class="btn btn-primary pull-right">
+            <img class="icon" src="/resources/images/gtk-refresh.png"/>
+        </button>
+        <button id="add-function" class="btn btn-primary pull-right">
+            Добавить функцию
+        </button>
+    </div>
+    <div class="row" id="functions-container">
+        <c:forEach var="function" items="${project.functions}">
+            <textarea spellcheck="false" class="form-control code-area js-function">
+                ${function.code}
+            </textarea>
+        </c:forEach>
+    </div>
     <div class="my container off">
-
-            <div id="form" style="width:1100px; height:600px">
-                <script type="text/javascript" src="/resources/js/editor/painter.js"></script>
-                <script type="text/javascript" src="/resources/js/editor/function.js"></script>
-
-                <div id="menu" style="background-color:#f6f6fd;height:inherit; width:200px;float:left;">
-                    <b>Functions</b><br>
-                    <form>
-                        Function name:<br/>
-                        <input type="text" id='fnname' name="fnname" size = "24" maxlength="24"/>
-                        <br/>
-                        Args Count: <input type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')"
-                                           id='argC' name="argC" size = "4" maxlength="4"/>
-                        <input type="button" id='addFnButton' onclick="fnList.add()" value="Add" disabled = "true" />
-                    </form>
-                    <form>
-                        <br/>
-                        Arg name:<br/>
-                        <input type="text" id='argName' name="argName" size = "24" maxlength="24"/>
-                        <br/>
-                    </form>
-                    <canvas id='fnList' style="background-color:#FFFFFF; width:inherit; height:inherit;" >
-                        ...
-                    </canvas>
-                    <script type="text/javascript" src="/resources/js/editor/fnList.js"></script>
-                </div>
-
-                <div id="content"
-                     style="width:700px; height:inherit; float:left;">
-                    <canvas id='editor' style="background-color:#FFFFFF; width:inherit; height:inherit;" >
-                        Loading...
-                    </canvas>
-                    <script type="text/javascript" src="/resources/js/editor/editor.js"></script>
-                </div>
-
-                <div id="menu" style="background-color:#f6f6fd;height:inherit; width:200px;float:right;">
-                    <b>Gates</b><br>
-                    <canvas id='gates' style="background-color:#FFFFFF; width:inherit; height:inherit;" >
-                        ...
-                    </canvas>
-                    <script type="text/javascript" src="/resources/js/editor/gates.js"></script>
-                </div>
-
-            </div>
-
+        <jsp:include page="/WEB-INF/views/editor.jsp"/>
     </div>
     <div class="result">
         <c:if test="${project.calculated}">
-            <a download class="btn btn-primary" href="/media/${imageName}">Скачать</a>
-            <img class="result" src="/media/${imageName}"/>
+            <c:forEach var="function" items="${project.functions}">
+            <a download class="btn btn-primary" href="/media/${function.imageUrl}">Скачать</a>
+            <img class="result" src="/media/${function.imageUrl}"/>
+            </c:forEach>
         </c:if>
     </div>
 </div>
