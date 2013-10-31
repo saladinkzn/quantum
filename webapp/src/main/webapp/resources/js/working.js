@@ -271,11 +271,14 @@
     function addFunction() {
         //spellcheck="false" class="form-control code-area js-function"
         var $container = $('<div/>').addClass('row');
+        var $cell = $('<div/>').addClass('col-lg-12').addClass('col-md-12').addClass('col-sm-12');
+        $cell.appendTo($container);
+        //
         var $textarea = $('<textarea/>').addClass('js-function').addClass('code-area').addClass('form-control').attr('spellcheck', false);
         if(!$('#project-area').find('div.my').hasClass('off')) {
             $textarea.addClass('off');
         }
-        $textarea.appendTo($container);
+        $textarea.appendTo($cell);
         $('#functions-container').append($container);
         return $textarea;
     }
