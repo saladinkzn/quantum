@@ -112,7 +112,7 @@ $(document).ready(function() {
          $.get('/working/get-project', {projectId: $(this).attr('recordId')}, function(data){
              $('#toolPanel').removeClass('off');
              $('#project-area').replaceWith($(data));
-             if($('#project-area').data('calculated') == 'true') {
+             if($('#project-area').data('calculated')) {
                  $('#archive-button').removeAttr('disabled');
              }
              else {
