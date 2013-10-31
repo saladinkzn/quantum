@@ -1,5 +1,5 @@
 import os
-from bottle import route, run, request
+from bottle import route, run, request, HTTPResponse
 import json
 from random import choice
 
@@ -16,7 +16,7 @@ def str_to_circuit():
         return json.dumps(
             [parse(source_code).get_structure() for source_code in source_codes] )
     except Exception as e:
-        return str(e)
+        return HTTPResponse(status=500, body=str(e))
 
 @route("/circuit_to_str", method="GET")
 def circuit_to_str():
@@ -25,7 +25,7 @@ def circuit_to_str():
         return json.dumps(
             [deparse(circ) for circ in circuits])
     except Exception as e:
-        return str(e) 
+        return HTTPResponse(status=500, body=str(e)) 
 
 @route("/circuit_to_file", method="GET")
 def circuit_to_file():
@@ -42,7 +42,7 @@ def circuit_to_file():
         os.remove(name)
         return data
     except Exception as e:
-        return str(e) 
+        return HTTPResponse(status=500, body=str(e)) 
 
 
 @route("/str_to_file", method="GET")
@@ -59,7 +59,7 @@ def str_to_file():
         os.remove(name)
         return data
     except Exception as e:
-        return str(e)
+        return HTTPResponse(status=500, body=str(e))
 
 
 run(host=HOST, port=PORT)

@@ -216,8 +216,10 @@ $(document).ready(function() {
                         for(var i = 0; i < code.length; i++) {
                             addFunction().val(code[i]);
                         }
-                    }, 'json');
+                    });
                 }
+            }).fail(function() {
+                alert('Синтаксическая ошибка')
             });
     });
 
