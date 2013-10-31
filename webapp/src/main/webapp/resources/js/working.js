@@ -173,6 +173,7 @@ $(document).ready(function() {
                 }
                 else {
                     $.get('/working/get-code', {projectId: $('#project-list').find('button').attr('projectId')}, function(code){
+                        code = JSON.parse(code);
                         $('#functions-container').empty();
                         for(var i = 0; i < code.length; i++) {
                             addFunction().val(code[i]);
@@ -210,6 +211,7 @@ $(document).ready(function() {
                 }
                 else {
                     $.get('/working/get-code', {projectId: $('#project-list').find('button').attr('projectId')}, function(code){
+                        code = JSON.parse(code);
                         $('#functions-container').empty();
                         for(var i = 0; i < code.length; i++) {
                             addFunction().val(code[i]);

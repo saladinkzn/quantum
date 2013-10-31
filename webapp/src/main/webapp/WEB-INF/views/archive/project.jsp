@@ -19,16 +19,18 @@
                     ${function.code}
                 </div>
             </div>
-            </c:forEach>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <img src="/media/${project.id}.png"/>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <img src="/media/${function.imageUrl}"/>
+                    </div>
                 </div>
-            </div>
+                <p><a download class="btn btn-primary btn-lg" href="/media/${function.imageUrl}">Скачать</a></p>
+            </c:forEach>
+
 
             <div class="well"><p>${project.description}</p></div>
 
-            <p><a download class="btn btn-primary btn-lg" href="/media/${project.id}.png">Скачать</a></p>
 
         </div>
     </div>
