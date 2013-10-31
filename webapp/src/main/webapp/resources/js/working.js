@@ -285,7 +285,7 @@
         }
         $textarea.appendTo($cell);
         //                 <button class="btn btn-danger js-delete-function">Удалить</button>
-        var $button = $('<button></button>').addClass('btn').addClass('.btn-danger').addClass('.js-delete-function').html('Удалить');
+        var $button = $('<button></button>').addClass('btn').addClass('btn-danger').addClass('js-delete-function').addClass('pull-right').html('Удалить');
         $button.appendTo($cell);
         $('#functions-container').append($container);
         return $textarea;
