@@ -126,6 +126,9 @@ $(document).ready(function() {
                  $.get('/working/get-circuit', {code: getCode()}, function(circuit){
                      editor.setProject(circuit);
                  });
+             } else {
+                 $('#save-button').attr('disabled', 'disabled');
+                 $('#calculate-button').attr('disabled', 'disabled');
              }
          });
          e.preventDefault();
@@ -239,7 +242,18 @@ $(document).ready(function() {
     $('#working-area')
         .on('click', 'button#view-button', function(){
             $('#project-area').find('textarea.code-area').toggleClass('off');
+            if($('#project-area').find('div.my').hasClass('off')) {
+                $('#save-button').removeAttr('disabled');
+                $('#calculate-button').removeAttr('disabled');
+            } else {
+                if(getCode() == '[]') {
+                    $('#save-button').attr('disabled', 'disabled');
+                    $('#calculate-button').attr('disabled', 'disabled');
+                }
+            }
             $('#project-area').find('div.my').toggleClass('off');
+            $('#add-function').toggleClass('off');
+
         })
         .on('click', '#add-function', function() {
             addFunction();
