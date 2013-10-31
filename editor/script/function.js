@@ -99,9 +99,11 @@ function makeFuncBase(){
         var elt = [];
         elt[0] = f.gates[i];
 
-        for( var r=0; r<f.columns[i].length; ++r )
-          if( f.columns[i][r].argId!==-1 )
-            elt[ f.columns[i][r].argId+1 ] = r;
+        if( f.gates[i]!=="" ){
+          for( var r=0; r<f.columns[i].length; ++r )
+            if( f.columns[i][r].argId!==-1 )
+              elt[ f.columns[i][r].argId+1 ] = r;
+          }
 
         fn.circuit[id] = elt;
         ++id;
