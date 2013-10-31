@@ -1,5 +1,9 @@
 (function($, undefined) {
-$(document).ready(function() {
+    function isTextEditorActive() {
+        return $('#project-area').find('div.my').hasClass('off');
+    }
+
+    $(document).ready(function() {
     function getCode() {
         var functions = [];
         $('.js-function').each(function() {
@@ -93,8 +97,13 @@ $(document).ready(function() {
                          })
                          $(projectListButton).dropdown('toggle');
                          $(projectListButton).removeAttr('disabled');
-                         $('#calculate-button').removeAttr('disabled');
-                         $('#save-button').removeAttr('disabled');
+                         if(isTextEditorActive()) {
+                             $('#calculate-button').attr('disabled', 'disabled');
+                             $('#save-button').attr('disabled', 'disabled');
+                         } else {
+                             $('#calculate-button').removeAttr('disabled');
+                             $('#save-button').removeAttr('disabled');
+                         }
                          $('#archive-button').attr('disabled', 'disabled');
                          $(currentInput).val("");
                          $('#functions-container').empty();
@@ -168,7 +177,7 @@ $(document).ready(function() {
             function(){
                 $('#working-area').find('div.result').addClass('off');
                 $('#archive-button').attr('disabled', 'disabled');
-                if($('#project-area').find('div.my').hasClass('off')){
+                if(isTextEditorActive()){
                     $.get('/working/get-circuit', {code: getCode()}, function(circuit){
                         editor.setProject(circuit);
                     });
