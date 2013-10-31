@@ -111,17 +111,17 @@ $(document).ready(function() {
          var projectListButton = $('#project-list').find('button');
          $(projectListButton).html($(this).html()+' <span class="caret"></span>');
          $(projectListButton).attr('projectId', $(this).attr('recordId'));
-         $('#calculate-button').removeAttr('disabled');
-         $('#save-button').removeAttr('disabled');
          $.get('/working/get-project', {projectId: $(this).attr('recordId')}, function(data){
              $('#project-area').replaceWith($(data));
-             if($('#project-area').find('textarea.code-area').attr('calculated') == 'true') {
+             if($('#project-area').data('calculated') == 'true') {
                  $('#archive-button').removeAttr('disabled');
              }
              else {
                  $('#archive-button').attr('disabled', 'disabled');
              }
              if(getCode() != '[]') {
+                 $('#save-button').removeAttr('disabled');
+                 $('#calculate-button').removeAttr('disabled');
                  $.get('/working/get-circuit', {code: getCode()}, function(circuit){
                      editor.setProject(circuit);
                  });
@@ -241,8 +241,9 @@ $(document).ready(function() {
             $('#project-area').find('div.my').toggleClass('off');
         })
         .on('click', '#add-function', function() {
-
             addFunction();
+            $('#save-button').removeAttr('disabled');
+            $('#calculate-button').removeAttr('disabled');
         });
     });
     function addFunction() {

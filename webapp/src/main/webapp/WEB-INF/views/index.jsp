@@ -4,6 +4,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true"%>
 <common:mainTemplate>
     <jsp:attribute name="title">Авторизация</jsp:attribute>
+    <jsp:attribute name="customHead">
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#login').focus();
+            });
+        </script>
+    </jsp:attribute>
     <jsp:attribute name="body">
         <div class="container">
             <div class="row">
@@ -17,7 +24,7 @@
                         <div class="form-group <c:if test="${fieldErrors['login']}">has-error</c:if>">
                             <label for="login" class="control-label col-lg-2 col-md-2 col-sm-2">Логин</label>
                             <div class="col-lg-4 col-md-4 col-sm-4">
-                                <spring:input path="login" id="login" cssClass="form-control"/>
+                                <spring:input path="login" id="login" cssClass="form-control" tabindex="1"/>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <spring:errors path="login" cssClass="help-block"/>
@@ -26,7 +33,7 @@
                         <div class="form-group <c:if test="${fieldErrors['password']}">has-error</c:if>">
                             <label for="password" class="control-label col-lg-2 col-md-2 col-sm-2">Пароль</label>
                             <div class="col-lg-4 col-md-4 col-sm-4">
-                                <spring:password path="password" id="password" cssClass="form-control"/>
+                                <spring:password path="password" id="password" cssClass="form-control" tabindex="2"/>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <spring:errors path="password" cssClass="help-block"/>

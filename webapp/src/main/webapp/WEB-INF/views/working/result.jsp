@@ -3,9 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     <div class="result">
-        <c:forEach var="function" items="${functions}">
-        <a download class="btn btn-primary" href="/media/${function.imageUrl}">Скачать</a>
-        <img class="result" src="/media/${function.imageUrl}"/>
-        </c:forEach>
+        <div class="row">
+            <c:forEach var="function" items="${functions}">
+                <div class="col-lg-3 col-md-4 cols-sm-2">
+                    <div class="thumbnail">
+                        <img class="result" src="/media/${function.imageUrl}"/>
+                        <div class="caption">
+                            <p>
+                                <a download class="btn btn-primary" href="/media/${function.imageUrl}">Скачать</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 
