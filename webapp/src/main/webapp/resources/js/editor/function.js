@@ -92,7 +92,7 @@ function makeFuncBase(){
     var id = 0;
     fn.circuit = [];
 
-    var spaceEnable = false;
+    var spaceEnable = true;
 
     for( var i=0; i<f.columns.length; ++i ){
       if( f.gates[i]!=="" || spaceEnable ){
@@ -118,7 +118,8 @@ function makeFuncFromJSON( obj ){
   var f = makeFuncBase();
   f.gates      = new Array( obj.circuit.length );
   f.columns    = new Array( obj.circuit.length );
-  f.name       = "main";
+
+  f.name       = obj.name;
   f.qBitsCount = obj.labels.length;
   f.qBitNames  = new Array( f.qBitsCount );
 

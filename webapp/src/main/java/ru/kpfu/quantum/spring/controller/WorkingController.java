@@ -193,7 +193,11 @@ public class WorkingController {
         final List<String> codes;
         if(!typeOfEditor.equals("text")) {
             final String codesString = integrationService.circuitToCode(code);
-            codes = gson.fromJson(codesString, new TypeToken<List<String>>() {}.getType());
+            List<String> tempCodes = gson.fromJson(codesString, new TypeToken<List<String>>() {}.getType());
+            codes = new ArrayList<>();
+            for(String tempCode: tempCodes) {
+                codes.add(tempCode.trim());
+            }
         } else {
             codes = gson.fromJson(code, new TypeToken<List<String>>() {}.getType());
         }

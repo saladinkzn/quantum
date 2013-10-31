@@ -14,9 +14,7 @@
     </div>
     <div class="row" id="functions-container">
         <c:forEach var="function" items="${project.functions}">
-            <textarea spellcheck="false" class="form-control code-area js-function">
-                ${function.code}
-            </textarea>
+            <textarea spellcheck="false" class="form-control code-area js-function">${function.code}</textarea>
         </c:forEach>
     </div>
     <div class="my container off">
