@@ -11,6 +11,8 @@ import ru.kpfu.quantum.spring.entities.Project;
 import ru.kpfu.quantum.spring.entities.ProjectGroup;
 import ru.kpfu.quantum.spring.repository.ProjectGroupRepository;
 import ru.kpfu.quantum.spring.repository.ProjectRepository;
+import ru.kpfu.quantum.spring.entities.User;
+import ru.kpfu.quantum.spring.utils.UserUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,7 +30,8 @@ public class ArchiveController {
 
     @RequestMapping("/archive")
     public String archive(HttpServletRequest request) {
-        List<ProjectGroup> groups = projectGroupRepository.findAllGroups();
+        User currentUser = UserUtils.getUserFromSession(request);
+        List<ProjectGroup> groups = projectGroupRepository.findAllGroupsOwnByUser(currentUser);
         request.setAttribute("groups", groups);
         return "archive/archive";
     }
