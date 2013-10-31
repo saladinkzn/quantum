@@ -249,6 +249,7 @@
     $('#working-area')
         .on('click', 'button#view-button', function(){
             $('#project-area').find('textarea.code-area').toggleClass('off');
+            $('#project-area').find('.js-delete-function').toggleClass('off');
             if($('#project-area').find('div.my').hasClass('off')) {
                 $('#save-button').removeAttr('disabled');
                 $('#calculate-button').removeAttr('disabled');
