@@ -118,7 +118,8 @@ function makeFuncFromJSON( obj ){
   var f = makeFuncBase();
   f.gates      = new Array( obj.circuit.length );
   f.columns    = new Array( obj.circuit.length );
-  f.name       = "main";
+
+  f.name       = obj.name;
   f.qBitsCount = obj.labels.length;
   f.qBitNames  = new Array( f.qBitsCount );
 
