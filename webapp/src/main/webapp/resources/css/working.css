@@ -1,10 +1,13 @@
 div.working-area {
     margin-top: 20pt;
 }
+
+.code-area-container {
+    margin-bottom: 20pt;
+}
 textarea.code-area{
     height: 200pt;
     resize: vertical;
-    margin-bottom: 20pt;
 }
 img.result {
     display: block;

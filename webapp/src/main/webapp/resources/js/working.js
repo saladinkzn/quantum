@@ -266,11 +266,16 @@
             addFunction();
             $('#save-button').removeAttr('disabled');
             $('#calculate-button').removeAttr('disabled');
+        })
+        .on('click', '.js-delete-function', function() {
+            $(this).closest('.row').remove();
         });
     });
+
+
     function addFunction() {
         //spellcheck="false" class="form-control code-area js-function"
-        var $container = $('<div/>').addClass('row');
+        var $container = $('<div/>').addClass('row').addClass('code-area-container');
         var $cell = $('<div/>').addClass('col-lg-12').addClass('col-md-12').addClass('col-sm-12');
         $cell.appendTo($container);
         //
@@ -279,6 +284,9 @@
             $textarea.addClass('off');
         }
         $textarea.appendTo($cell);
+        //                 <button class="btn btn-danger js-delete-function">Удалить</button>
+        var $button = $('<button></button>').addClass('btn').addClass('.btn-danger').addClass('.js-delete-function').html('Удалить');
+        $button.appendTo($cell);
         $('#functions-container').append($container);
         return $textarea;
     }
