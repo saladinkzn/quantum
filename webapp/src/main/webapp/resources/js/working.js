@@ -218,9 +218,10 @@ $(document).ready(function() {
                         }
                     });
                 }
-            }).fail(function() {
-                alert('Синтаксическая ошибка')
-            });
+            }
+        ).fail(function() {
+            alert('Синтаксическая ошибка')
+        });
     });
 
     //Архивировать проект
@@ -247,6 +248,9 @@ $(document).ready(function() {
     function addFunction() {
         //spellcheck="false" class="form-control code-area js-function"
         var $textarea = $('<textarea/>').addClass('js-function').addClass('code-area').addClass('form-control').attr('spellcheck', false);
+        if(!$('#project-area').find('div.my').hasClass('off')) {
+            $textarea.addClass('off');
+        }
         $('#functions-container').append($textarea);
         return $textarea;
     }

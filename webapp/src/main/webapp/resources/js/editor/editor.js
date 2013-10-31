@@ -3,11 +3,11 @@ function Editor( editor ){
   var mx = 0, my = 0;
 
   var triangleImg = new Image();
-  triangleImg.src = "../img/triangle.png";
+  triangleImg.src = "/resources/images/triangle.png";
   var triangleAlpha = 0;
 
   var closeImg = new Image();
-  closeImg.src = "../img/close.png";
+  closeImg.src = "/resources/images/close.png";
   var closeImgAlpha = 0;
 
   var p = painter( editor );
