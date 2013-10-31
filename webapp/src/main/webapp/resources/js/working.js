@@ -33,9 +33,8 @@ $(document).ready(function() {
                     $.get('/working/group-list', function(data){
                         $('#group-list').find('div.data-list').replaceWith($(data)); //Записываем в список групп обновлённый список
                     });
-                    var codeArea = $('#working-area').find('textarea.code-area');
-                    $(codeArea).val("");
-                    $(codeArea).attr('disabled', 'disabled'); //Делаем поле ввода кода неактивным
+                    $('#working-area').find('#functions-container').empty();
+                    $('.result').empty();
                     $('#calculate-button').attr('disabled', 'disabled');
                     $('#save-button').attr('disabled', 'disabled');
                     $('#archive-button').attr('disabled', 'disabled');
@@ -64,9 +63,8 @@ $(document).ready(function() {
         $(projectListButton).html('Projects'+' <span class="caret"></span>');
         $(projectListButton).attr('projectId', "");
         $(projectListButton).removeAttr('disabled');
-        var codeArea = $('#working-area').find('textarea.code-area');
-        $(codeArea).val("");
-        $(codeArea).attr('disabled', 'disabled');
+        $('#working-area').find('#functions-container').empty();
+        $('.result').empty();
         $('#calculate-button').attr('disabled', 'disabled');
         $('#save-button').attr('disabled', 'disabled');
         $('#archive-button').attr('disabled', 'disabled');
