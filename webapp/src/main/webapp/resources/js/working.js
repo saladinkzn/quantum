@@ -88,7 +88,7 @@ $(document).ready(function() {
                          var projectListButton = $('#project-list').find('button');
                          $(projectListButton).html($(currentInput).val() + ' <span class="caret"></span>');
                          $(projectListButton).attr('projectId', id);
-                         $('#working-area').find('textarea.code-area').removeAttr('disabled');
+                         $('#toolPanel').removeClass('off');
                          $.get('/working/project-list', {groupId: $('#group-list').find('button').attr('groupId'),
                              filter: $('#filter-list').find('button').val()}, function(data){
                              $('#project-list').find('div.data-list').replaceWith($(data));
@@ -112,6 +112,7 @@ $(document).ready(function() {
          $(projectListButton).html($(this).html()+' <span class="caret"></span>');
          $(projectListButton).attr('projectId', $(this).attr('recordId'));
          $.get('/working/get-project', {projectId: $(this).attr('recordId')}, function(data){
+             $('#toolPanel').removeClass('off');
              $('#project-area').replaceWith($(data));
              if($('#project-area').data('calculated') == 'true') {
                  $('#archive-button').removeAttr('disabled');
@@ -248,11 +249,13 @@ $(document).ready(function() {
     });
     function addFunction() {
         //spellcheck="false" class="form-control code-area js-function"
+        var $container = $('<div/>').addClass('row');
         var $textarea = $('<textarea/>').addClass('js-function').addClass('code-area').addClass('form-control').attr('spellcheck', false);
         if(!$('#project-area').find('div.my').hasClass('off')) {
             $textarea.addClass('off');
         }
-        $('#functions-container').append($textarea);
+        $textarea.appendTo($container);
+        $('#functions-container').append($container);
         return $textarea;
     }
 })(jQuery);

@@ -21,7 +21,7 @@
             <c:forEach var="function" items="${project.functions}">
                 <div class="col-lg-4 col-md-6 cols-sm-12">
                     <div class="thumbnail">
-                        <img class="result" src="/media/${function.imageUrl}"/>
+                        <img src="/media/${function.imageUrl}"/>
                         <div class="caption">
                             <p>
                                 <a download class="btn btn-primary" href="/media/${function.imageUrl}">Скачать</a>

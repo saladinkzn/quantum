@@ -77,7 +77,7 @@
                 </ul>
             </div>
         </div>
-        <div class="row">
+        <div class="row off" id="toolPanel">
             <div class="col-lg-offset-8 col-md-offset-8 col-sm-offset-8 col-lg-4 col-sm-4 col-md-4 pull-right">
                 <ul class="pull-right list-inline">
                     <li>
