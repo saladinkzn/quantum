@@ -24,7 +24,11 @@ function Gates( gates ){
 
     for( var i=0; i<gts.length; ++i ){
       var rect = btnRect(i);
-      p.fillStyle   = '#F0F0F0';
+
+      if( gts[i].argCount===argCount )
+        p.fillStyle   = '#186fff'; else
+        p.fillStyle   = '#F0F0F0';
+
       p.globalAlpha = gts[i].sel*0.8+0.2;
       p.roundedRect( rect.x, rect.y, rect.w, rect.h );
       p.globalAlpha = 1;
@@ -90,6 +94,7 @@ function Gates( gates ){
          }
          i++;
    }
+
    if (i<gts.length) {
        gts.splice(i,1);
    }
@@ -126,7 +131,7 @@ function addGate(g,argCount1){
      }
      else alert("function name was use");
     window.requestAnimFrame(paintEvent);
-}
+  }
 
   gates.paintEvent   = paintEvent;
   gates.onclick      = paintEvent;

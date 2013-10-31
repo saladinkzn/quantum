@@ -92,16 +92,18 @@ function makeFuncBase(){
     var id = 0;
     fn.circuit = [];
 
-    var spaceEnable = true;
+    var spaceEnable = false;
 
     for( var i=0; i<f.columns.length; ++i ){
       if( f.gates[i]!=="" || spaceEnable ){
         var elt = [];
         elt[0] = f.gates[i];
 
-        for( var r=0; r<f.columns[i].length; ++r )
-          if( f.columns[i][r].argId!==-1 )
-            elt[ f.columns[i][r].argId+1 ] = r;
+        if( f.gates[i]!=="" ){
+          for( var r=0; r<f.columns[i].length; ++r )
+            if( f.columns[i][r].argId!==-1 )
+              elt[ f.columns[i][r].argId+1 ] = r;
+          }
 
         fn.circuit[id] = elt;
         ++id;

@@ -184,10 +184,7 @@ public class WorkingController {
                             @RequestParam String code,
                             @RequestParam String typeOfEditor) throws IOException {
         Project project = projectRepository.findOneFetchFunctions(projectId);
-        project.setCalculated(true);
-        projectRepository.save(project);
-        functionRepository.delete(project.getFunctions());
-        project.getFunctions().clear();
+
         //
         final List<Function> functions = new ArrayList<>();
         final List<String> codes;
@@ -207,6 +204,10 @@ public class WorkingController {
             Function function = new Function("", codeEntry, imageName, project);
             functions.add(function);
         }
+        //
+        project.setCalculated(true);
+        projectRepository.save(project);
+        functionRepository.delete(project.getFunctions());
         functionRepository.save(functions);
         request.setAttribute("functions", functions);
         return "working/result";

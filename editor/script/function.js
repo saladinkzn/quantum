@@ -92,7 +92,7 @@ function makeFuncBase(){
     var id = 0;
     fn.circuit = [];
 
-    var spaceEnable = true;
+    var spaceEnable = false;
 
     for( var i=0; i<f.columns.length; ++i ){
       if( f.gates[i]!=="" || spaceEnable ){
