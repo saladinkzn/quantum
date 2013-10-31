@@ -128,6 +128,9 @@ function FnList( fnList ){
       if( gts[i].name==str )
         return;
 
+    if( str==="cnot" ||str==="not" || str==="H" )
+      return;
+
     gts.splice(0,0, {name:str, sel:0 });
     window.requestAnimFrame(paintEvent);
     validateInput();

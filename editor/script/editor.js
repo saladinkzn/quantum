@@ -200,6 +200,8 @@ function Editor( editor ){
       }
 
     eachEditCride( function( q, i, r ){
+      var prefix = "#";
+
       if( mOver.x-r <=2 && r-mOver.x<=1 &&
           ( func.editColumn===r || func.editColumn==-1 ) ){
         if( r===mOver.x || r+1===mOver.x )
@@ -218,7 +220,7 @@ function Editor( editor ){
               if( func.columns[r][i].selected &&
                   func.columns[r][i].argId>q.argId  ){
                 func.columns[r][i].argId--;
-                func.columns[r][i].name = "Q"+(func.columns[r][i].argId+1);
+                func.columns[r][i].name = prefix+(func.columns[r][i].argId+1);
                 }
               }
             q.argId = -1;
@@ -229,12 +231,14 @@ function Editor( editor ){
             func.eArgsCount--;
 
           if( q.selected )
-            q.name = "Q"+(q.argId+1); else
+            q.name = prefix+(q.argId+1); else
             q.name = "";
 
           if( func.eArgsCount>0 )
             func.editColumn = r; else
             func.editColumn = -1;
+
+          editor.setArgsCount( func.eArgsCount );
           }
         }
       });
@@ -283,6 +287,11 @@ function Editor( editor ){
       if( functions[ functionsNames[i] ]!==undefined )
         functions[ functionsNames[i] ].onFunctionDelete(name);
       }
+
+    for( var i=0; i<functionsNames.length; ++i )
+      if( functionsNames[i]===name ){
+        functionsNames.splice(i,1);
+        }
 
     functions[name] = undefined;
     window.requestAnimFrame(paintEvent);
@@ -341,6 +350,8 @@ function Editor( editor ){
       if( functionsNames[i]!=="main" )
         gates.addGate( functionsNames[i], functions[functionsNames[0]].qBitsCount );
       }
+
+    editor.setArgsCount( 0 );
     }
   editor.setProject = setProject;
 
@@ -376,9 +387,10 @@ function Editor( editor ){
   editor.argName.value = "Q_n";
 
   function setQBitName( fn, id, name ){
-    for( var i=0; i<functionsNames.length; ++i ){
-      functions[ functionsNames[i] ].setQBitName( fn, id, name );
-      }
+    for( var i=0; i<functionsNames.length; ++i )
+      if( functions[ functionsNames[i] ]!==undefined ){
+        functions[ functionsNames[i] ].setQBitName( fn, id, name );
+        }
     }
 
   editor.updateQbitName = function(){
@@ -424,6 +436,7 @@ function Editor( editor ){
       }
 
     func.editColumn = -1;
+    editor.setArgsCount( 0 );
     window.requestAnimFrame(paintEvent);
     }
 
